@@ -111,6 +111,7 @@ ax[0,0].scatter(z[:,0], z[:,1], marker='d', color=colors[3], s=24)
 time = 0.0
 save_plots = False
 #%% main loop
+   
 for i in range(conf.T):
     # plot
     if i%20 == 0:
@@ -123,9 +124,7 @@ for i in range(conf.T):
         plt.pause(0.1)
         plt.show()
         
-        # if i in snapshots and save_plots:
-        #     fig.savefig(cur_path+"\\visualizations\\Ackley\\Ackley-i-" + str(i) + "-kappa-" + str(conf.kappa) + ".pdf",bbox_inches="tight")
-    
+        
     # update step
     time = conf.tau*(i+1)
     opt.step(time=time)
