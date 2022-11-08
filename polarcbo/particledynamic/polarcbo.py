@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import logsumexp
 
 from .particledynamic import ParticleDynamic
-from kernelcbo import kernels
+from polarcbo import kernels
 
 #%% Kernelized CBO
 class PolarCBO(ParticleDynamic):

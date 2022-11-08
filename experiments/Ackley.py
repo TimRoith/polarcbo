@@ -8,12 +8,12 @@ import os.path as path, sys
 current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
-import kernelcbo as kcbo
-import kernelcbo.particledynamic as pdyn
+import polarcbo as pcbo
+import polarcbo.particledynamic as pdyn
 
 
 #%% set parameters
-conf = kcbo.utils.config()
+conf = pcbo.utils.config()
 conf.T = 5000
 conf.tau=0.01
 conf.x_max = 7
@@ -29,9 +29,9 @@ conf.heavy_correction = False
 conf.num_particles = 1000
 conf.factor = 1.01
 #conf.noise = ut.normal_noise(tau=conf.tau)
-conf.noise = kcbo.noise.comp_noise(tau=conf.tau)
+conf.noise = pcbo.noise.comp_noise(tau=conf.tau)
 conf.eta = 0.5
-conf.kernel = kcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
+conf.kernel = pcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
 
 conf.repulsion_scale = 5.
 
@@ -60,15 +60,15 @@ else:
 
 #z[:, 2:] = np.random.uniform(low=conf.x_min, high=conf.x_max, size=(z.shape[0], conf.d-2))
 
-conf.V = kcbo.objectives.Ackley_multimodal(alpha=alphas,z=z)
+conf.V = pcbo.objectives.Ackley_multimodal(alpha=alphas,z=z)
 
 #%% initialize scheme
 np.random.seed(seed=conf.random_seed)
-x = kcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
+x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
-if conf.optim == "KernelCBO":
-    opt = pdyn.KernelCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+if conf.optim == "polarcbo":
+    opt = pdyn.polarcbo(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                        beta = conf.beta, kernel=conf.kernel)
 else:
     opt = pdyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
@@ -76,7 +76,7 @@ else:
                           repulsion_scale = conf.repulsion_scale,
                           M=conf.M)
 #beta_sched = ut.beta_eff(opt, eta=conf.eta, factor=conf.factor)
-beta_sched = kcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e7)
+beta_sched = pcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e7)
 
 #%% plot loss landscape and scatter
 plt.close('all')

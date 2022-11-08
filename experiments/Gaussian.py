@@ -9,14 +9,14 @@ import os.path as path, sys
 current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
-import kernelcbo as kcbo
-import kernelcbo.particledynamic as pdyn
+import polarcbo as pcbo
+import polarcbo.particledynamic as pdyn
 
 #%%
 cur_path = os.path.dirname(os.path.realpath(__file__))
 
 #%% set parameters
-conf = kcbo.utils.config()
+conf = pcbo.utils.config()
 conf.save2disk = False
 conf.T = 2001
 conf.tau=0.01
@@ -26,17 +26,17 @@ conf.random_seed = 24
 conf.d = 2
 conf.beta = 1.0
 conf.kappa = 0.8 
-conf.kernel = kcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
+conf.kernel = pcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
 
 conf.num_particles = 200
 
 
 # target function
-conf.V = kcbo.objectives.Unimodal()
+conf.V = pcbo.objectives.Unimodal()
 
 #%% initialize scheme
 np.random.seed(seed=conf.random_seed)
-x = kcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
+x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
 opt = pdyn.KernelCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\

@@ -3,7 +3,7 @@ from scipy.special import logsumexp
 import scipy.linalg as scpl
 
 from .particledynamic import ParticleDynamic
-from kernelcbo import kernels
+from polarcbo import kernels
 
 class PolarCBS(ParticleDynamic):
     def __init__(self,x, V,\

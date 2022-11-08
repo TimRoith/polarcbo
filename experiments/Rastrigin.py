@@ -9,14 +9,14 @@ import os.path as path, sys
 current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
-import kernelcbo as kcbo
-import kernelcbo.particledynamic as pdyn
+import polarcbo as pcbo
+import polarcbo.particledynamic as pdyn
 
 #%%
 cur_path = os.path.dirname(os.path.realpath(__file__))
 
 #%% set parameters
-conf = kcbo.utils.config()
+conf = pcbo.utils.config()
 conf.save2disk = False
 conf.T = 2001
 conf.tau=0.01
@@ -29,24 +29,24 @@ conf.sigma = 1.0
 conf.heavy_correction = False
 conf.num_particles = 200
 conf.factor = 1.0
-conf.noise = kcbo.noise.normal_noise(tau=conf.tau)
+conf.noise = pcbo.noise.normal_noise(tau=conf.tau)
 conf.eta = 0.5
 
 
 kernel = 'Gaussian'
 
 if kernel == 'Gaussian':
-    conf.kappa = 1 #.5
-    conf.kernel = kcbo.kernels.Gaussian_kernel(kappa=conf.kappa)    
+    conf.kappa = 0.5
+    conf.kernel = pcbo.kernels.Gaussian_kernel(kappa=conf.kappa)    
 elif kernel == 'Laplace':
     conf.kappa = .05
-    conf.kernel = kcbo.kernels.Laplace_kernel(kappa=conf.kappa)    
+    conf.kernel = pcbo.kernels.Laplace_kernel(kappa=conf.kappa)    
 elif kernel == 'Constant':
     conf.kappa = 2
-    conf.kernel = kcbo.kernels.Constant_kernel(kappa=conf.kappa)        
+    conf.kernel = pcbo.kernels.Constant_kernel(kappa=conf.kappa)        
 elif kernel == 'InverseQuadratic':
     conf.kappa = 1e-7
-    conf.kernel = kcbo.kernels.InverseQuadratic_kernel(kappa=conf.kappa)        
+    conf.kernel = pcbo.kernels.InverseQuadratic_kernel(kappa=conf.kappa)        
 else:
     raise ValueError('Unknown kernel')
 
@@ -54,28 +54,21 @@ else:
 snapshots = [0, 100, 500, 1000, 2000]
 
 
-# z = np.array([[3.,2.],[0,0], [-1,-3.5]])
-# alphas = np.array([1,1,1])
+z = np.array([[3.,2.],[0,0], [-1,-3.5]])
+alphas = np.array([1,1,1])
 
-z = np.array([[2,0],[0,0]])
-alphas = np.array([1,1])
-
-# z = np.pad(z, [[0,0], [0,conf.d-2]])
-
-# conf.V = tf.Ackley_multimodal(alpha=alphas,z=z)
-# conf.V = tf.Rastrigin()
-conf.V = kcbo.objectives.Rastrigin_multimodal(alpha=alphas,z=z)
+conf.V = pcbo.objectives.Rastrigin_multimodal(alpha=alphas,z=z)
 
 #%% initialize scheme
 np.random.seed(seed=conf.random_seed)
-x = kcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
+x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
     
 #%% init optimizer and scheduler
-opt = pdyn.KernelCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+opt = pdyn.polarcbo(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                        beta = conf.beta, kernel=conf.kernel)
 
-beta_sched = kcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e7)
+beta_sched = pcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e7)
 
 #%% plot loss landscape and scatter
 plt.close('all')

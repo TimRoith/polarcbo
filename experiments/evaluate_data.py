@@ -9,7 +9,7 @@ import os.path as path, sys
 current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
-from kernelcbo import utils as ut
+from polarcbo import utils as ut
 
 #%% get files and extract data
 cur_path = os.path.dirname(os.path.realpath(__file__))

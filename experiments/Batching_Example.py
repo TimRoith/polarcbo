@@ -11,14 +11,14 @@ import os.path as path, sys
 current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
-import kernelcbo as kcbo
-import kernelcbo.particledynamic as pdyn
+import polarcbo as pcbo
+import polarcbo.particledynamic as pdyn
 
 #%%
 cur_path = os.path.dirname(os.path.realpath(__file__))
 
 #%% set parameters
-conf = kcbo.utils.config()
+conf = pcbo.utils.config()
 conf.save2disk = False
 conf.T = 10000
 conf.tau=0.01
@@ -32,24 +32,24 @@ conf.heavy_correction = False
 conf.num_particles = 100
 conf.M = 70
 conf.factor = 1.0
-conf.noise = kcbo.noise.comp_noise(tau=conf.tau)
+conf.noise = pcbo.noise.comp_noise(tau=conf.tau)
 conf.eta = 0.5
 
 
 snapshots = [0, 100, 500, 1000, 2000]
 
-conf.V = kcbo.objectives.Rastrigin()
+conf.V = pcbo.objectives.Rastrigin()
 
 #%% initialize scheme
 np.random.seed(seed=conf.random_seed)
-x = kcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
+x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
     
 #%% init optimizer and scheduler
 opt = pdyn.CBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                        beta = conf.beta, M=conf.M)
 
-beta_sched = kcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e7)
+beta_sched = pcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e7)
 
 #%% plot loss landscape and scatter
 plt.close('all')

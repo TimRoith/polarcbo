@@ -9,14 +9,14 @@ import os.path as path, sys
 current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
-import kernelcbo as kcbo
-import kernelcbo.particledynamic as pdyn
+import polarcbo as pcbo
+import polarcbo.particledynamic as pdyn
 
 #%%
 cur_path = os.path.dirname(os.path.realpath(__file__))
 
 #%% set parameters
-conf = kcbo.utils.config()
+conf = pcbo.utils.config()
 conf.save2disk = False
 conf.T = 4001
 conf.tau=0.01
@@ -38,9 +38,9 @@ case = 'Far'
 if case == 'Far':
     a = [1., 3.]    #center of first cluster
     b = [-1.2, -2.5] #center of second cluster
-    conf.V = kcbo.objectives.Bimodal(a, b)
+    conf.V = pcbo.objectives.Bimodal(a, b)
 elif case == 'Close':
-    conf.V = kcbo.objectives.Bimodal()
+    conf.V = pcbo.objectives.Bimodal()
 else: 
     raise ValueError('Unknown case')
     
@@ -50,11 +50,11 @@ for kappa in kappas:
     conf.kappa = kappa
     #%% initialize scheme
     np.random.seed(seed=conf.random_seed)
-    x = kcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
+    x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                           x_min=conf.x_min, x_max=conf.x_max)
     #%% init optimizer 
     opt = pdyn.KernelCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\
-                     kernel=kcbo.kernels.Gaussian_kernel(kappa=conf.kappa))   
+                     kernel=pcbo.kernels.Gaussian_kernel(kappa=conf.kappa))   
     
     #%% plot loss landscape and scatter
     plt.close('all')

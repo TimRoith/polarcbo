@@ -9,14 +9,14 @@ import os.path as path, sys
 current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
-import kernelcbo as kcbo
-import kernelcbo.particledynamic as pdyn
+import polarcbo as pcbo
+import polarcbo.particledynamic as pdyn
 
 #%%
 cur_path = os.path.dirname(os.path.realpath(__file__))
 
 #%% set parameters
-conf = kcbo.utils.config()
+conf = pcbo.utils.config()
 conf.save2disk = False
 conf.T = 3000
 conf.tau=0.01
@@ -24,7 +24,7 @@ conf.x_max = 6
 conf.x_min = -6
 conf.random_seed = 309
 conf.d = 2
-conf.V = kcbo.objectives.Himmelblau()
+conf.V = pcbo.objectives.Himmelblau()
 conf.beta=1.0
 conf.sigma=1.0
 conf.heavy_correction = False
@@ -32,22 +32,22 @@ conf.num_particles = 300
 conf.factor = 1.0
 conf.eta = 0.5
 
-conf.noise = kcbo.noise.normal_noise(tau=conf.tau)
+conf.noise = pcbo.noise.normal_noise(tau=conf.tau)
 conf.kappa = 0.8#np.inf
-conf.kernel = kcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
+conf.kernel = pcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
 
 
 #%% initialize scheme
 np.random.seed(seed=conf.random_seed)
-x = kcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
+x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
-opt = pdyn.KernelCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+opt = pdyn.polarcbo(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                     kernel=conf.kernel)
 # opt = pdyn.CCBO(x, conf.V, conf.noise, beta=conf.beta, tau=conf.tau,\
 #                       sigma=conf.sigma, kernel=conf.kernel,\
 #                       num_means = 4, repulsion_scale = 1)    
-beta_sched = kcbo.scheduler.beta_eff(opt, eta=conf.eta, factor=conf.factor)
+beta_sched = pcbo.scheduler.beta_eff(opt, eta=conf.eta, factor=conf.factor)
 
 #%% plot loss landscape and scatter
 plt.close('all')

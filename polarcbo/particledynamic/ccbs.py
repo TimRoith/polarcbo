@@ -4,7 +4,7 @@ import scipy.linalg as scpl
 import warnings
 
 from .particledynamic import ParticleDynamic
-from kernelcbo import kernels
+from polarcbo import kernels
 
 #%% Multi-mean CBS (deprecated)
             
@@ -15,7 +15,7 @@ class CCBS(ParticleDynamic):
         
         super(CCBS, self).__init__(x, V, beta = beta)
         
-        warnings.warn('Deprecated algorithm! Consider using KernelCBS instead.')
+        warnings.warn('Deprecated algorithm! Consider using PolarCBS instead.')
 
         
         # additional parameters

@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import logsumexp
 
 from .particledynamic import ParticleDynamic
-from kernelcbo import kernels
+from polarcbo import kernels
 
 #%% Multi-mean CBO    
 class CCBO(ParticleDynamic):

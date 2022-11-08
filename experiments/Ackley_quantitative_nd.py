@@ -12,14 +12,14 @@ import os.path as path, sys
 current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
-import kernelcbo as kcbo
-import kernelcbo.particledynamic as pdyn
+import polarcbo as pcbo
+import polarcbo.particledynamic as pdyn
 
 #%%
 cur_path = os.path.dirname(os.path.realpath(__file__))
 
 #%% set parameters
-conf = kcbo.utils.config()
+conf = pcbo.utils.config()
 conf.num_steps = 1000
 conf.tau=0.01
 conf.x_max =7
@@ -32,7 +32,7 @@ conf.kappa = 0.5
 conf.heavy_correction = False
 conf.num_particles = 300
 conf.factor = 1.01
-conf.noise = kcbo.noise.comp_noise(tau=conf.tau)
+conf.noise = pcbo.noise.comp_noise(tau=conf.tau)
 conf.eta = 0.5
 conf.num_cores = 8
 conf.num_runs = 3
@@ -57,7 +57,7 @@ else:
     alphas = np.array([1,1,1])
 
 
-conf.V = kcbo.objectives.Ackley_multimodal(alpha=alphas,z=z)
+conf.V = pcbo.objectives.Ackley_multimodal(alpha=alphas,z=z)
 conf.minima = conf.V.minima
 
 #%%
@@ -83,18 +83,18 @@ for opt, arg in opts:
     elif opt in ("-c", "--num_cores"):
         conf.num_cores = int(arg)
 
-conf.kernel = kcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
+conf.kernel = pcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
 #conf.kernel = ut.Vesuvio_kernel(kappa=conf.kappa)
 #%%
 def run(num_run):
     np.random.seed(seed=num_run**4)
-    x = kcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
+    x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                                x_min=conf.x_min, x_max=conf.x_max)
         
     
     # optim = "MultiMeanCBO"
-    if conf.optim == "KernelCBO":
-        opt = pdyn.KernelCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+    if conf.optim == "polarcbo":
+        opt = pdyn.polarcbo(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                            beta = conf.beta, kernel=conf.kernel)
     else:
         
@@ -102,7 +102,7 @@ def run(num_run):
                        beta = conf.beta, kernel=conf.kernel,\
                        repulsion_scale = conf.repulsion_scale, M=conf.M)
     #
-    beta_sched = kcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=conf.beta_max)
+    beta_sched = pcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=conf.beta_max)
     
     #%% main loop
     for i in range(conf.num_steps):
