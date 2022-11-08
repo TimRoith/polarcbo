@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 
 #%% custom imports
 from inspect import getsourcefile
@@ -28,7 +27,6 @@ conf.kappa = .1#0.000755
 conf.heavy_correction = False
 conf.num_particles = 1000
 conf.factor = 1.01
-#conf.noise = ut.normal_noise(tau=conf.tau)
 conf.noise = pcbo.noise.comp_noise(tau=conf.tau)
 conf.eta = 0.5
 conf.kernel = pcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
@@ -67,8 +65,8 @@ np.random.seed(seed=conf.random_seed)
 x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
-if conf.optim == "polarcbo":
-    opt = pdyn.polarcbo(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+if conf.optim == "PolarCBO":
+    opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                        beta = conf.beta, kernel=conf.kernel)
 else:
     opt = pdyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\

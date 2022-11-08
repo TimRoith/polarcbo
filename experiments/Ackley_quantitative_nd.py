@@ -92,9 +92,8 @@ def run(num_run):
                                x_min=conf.x_min, x_max=conf.x_max)
         
     
-    # optim = "MultiMeanCBO"
-    if conf.optim == "polarcbo":
-        opt = pdyn.polarcbo(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+    if conf.optim == "PolarCbo":
+        opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                            beta = conf.beta, kernel=conf.kernel)
     else:
         

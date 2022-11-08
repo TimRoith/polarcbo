@@ -12,10 +12,6 @@ def init_particles(num_particles=100, d=2, x_min=0.0, x_max = 1.0, delta=1.0, me
     return x
         
 
-    
-
-        
-
            
            
 class config:

@@ -53,7 +53,7 @@ for kappa in kappas:
     x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                           x_min=conf.x_min, x_max=conf.x_max)
     #%% init optimizer 
-    opt = pdyn.KernelCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\
+    opt = pdyn.PolarCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\
                      kernel=pcbo.kernels.Gaussian_kernel(kappa=conf.kappa))   
     
     #%% plot loss landscape and scatter

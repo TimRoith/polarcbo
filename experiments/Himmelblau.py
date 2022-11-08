@@ -42,7 +42,7 @@ np.random.seed(seed=conf.random_seed)
 x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
-opt = pdyn.polarcbo(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                     kernel=conf.kernel)
 # opt = pdyn.CCBO(x, conf.V, conf.noise, beta=conf.beta, tau=conf.tau,\
 #                       sigma=conf.sigma, kernel=conf.kernel,\

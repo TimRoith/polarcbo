@@ -147,4 +147,13 @@ class Bimodal():
         return ret
         
 
+class Unimodal():
+    def __init__(self, a=[-1.2, -0.7]):
+        self.a = a
+    
+    def __call__(self, x):
+        a = self.a
+        ret = -np.log(0.5*np.exp( -(x[...,0]-a[0])**2/8 - (x[...,1]-a[1])**2/0.5 ))
         
+        return ret
+                

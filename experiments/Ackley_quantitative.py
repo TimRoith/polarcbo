@@ -32,7 +32,7 @@ conf.kappa = 0.5
 conf.heavy_correction = False
 conf.num_particles = 300
 conf.factor = 1.0
-conf.noise = pcbo.utils.normal_noise(tau=conf.tau)
+conf.noise = pcbo.noise.normal_noise(tau=conf.tau)
 conf.eta = 0.5
 conf.num_cores = 8
 conf.num_runs = 3

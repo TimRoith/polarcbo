@@ -39,7 +39,7 @@ np.random.seed(seed=conf.random_seed)
 x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
-opt = pdyn.KernelCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\
+opt = pdyn.PolarCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\
                    kernel=conf.kernel)   
 
 #%% plot loss landscape and scatter
