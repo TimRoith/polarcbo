@@ -43,7 +43,6 @@ conf.num_means = 5
 conf.M = int(conf.num_particles * 0.8)
 
 # target function
-# target function
 uni_modal = False
 if uni_modal:   
     z = np.array([[3.,2.]])
@@ -84,19 +83,16 @@ for opt, arg in opts:
         conf.num_cores = int(arg)
 
 conf.kernel = pcbo.functional.Gaussian_kernel(kappa=conf.kappa)
-#conf.kernel = ut.Vesuvio_kernel(kappa=conf.kappa)
 #%%
 def run(num_run):
     np.random.seed(seed=num_run**4)
     x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                                x_min=conf.x_min, x_max=conf.x_max)
         
-    # optim = "MultiMeanCBO"
-    if conf.optim == "KernelCBO":
-        opt = pdyn.KernelCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
-                           beta = conf.beta, kernel=conf.kernel)
+    if conf.optim == "PolarCbo":
+        opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+                            beta = conf.beta, kernel=conf.kernel)
     else:
-        
         opt = pdyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
                        beta = conf.beta, kernel=conf.kernel,\
                        repulsion_scale = conf.repulsion_scale, M=conf.M)

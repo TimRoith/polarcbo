@@ -30,7 +30,6 @@ conf.factor = 1.01
 conf.noise = pcbo.noise.comp_noise(tau=conf.tau)
 conf.eta = 0.5
 conf.kernel = pcbo.functional.Gaussian_kernel(kappa=conf.kappa)
-
 conf.repulsion_scale = 5.
 
 conf.optim = "CCBO"
@@ -51,10 +50,7 @@ else:
     z[0,:] = np.array([[-2,1] for i in range(conf.d//2)]).ravel()
     z[1,:] = np.array([[2,-1] for i in range(conf.d//2)]).ravel()
     z[2,:] = np.array([[-1,-3] for i in range(conf.d//2)]).ravel()
-
     alphas = np.array([1,1,1])
-
-#z[:, 2:] = np.random.uniform(low=conf.x_min, high=conf.x_max, size=(z.shape[0], conf.d-2))
 
 conf.V = pcbo.objectives.Ackley_multimodal(alpha=alphas,z=z)
 
@@ -63,8 +59,8 @@ np.random.seed(seed=conf.random_seed)
 x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
-if conf.optim == "KernelCBO":
-    opt = pdyn.KernelCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+if conf.optim == "PolarCBO":
+    opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                        beta = conf.beta, kernel=conf.kernel)
 else:
     opt = pdyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
@@ -107,6 +103,7 @@ ax[0,0].scatter(z[:,0], z[:,1], marker='d', color=colors[3], s=24)
 time = 0.0
 save_plots = False
 #%% main loop
+   
 for i in range(conf.T):
     # plot
     if i%20 == 0:
@@ -119,9 +116,7 @@ for i in range(conf.T):
         plt.pause(0.1)
         plt.show()
         
-        # if i in snapshots and save_plots:
-        #     fig.savefig(cur_path+"\\visualizations\\Ackley\\Ackley-i-" + str(i) + "-kappa-" + str(conf.kappa) + ".pdf",bbox_inches="tight")
-    
+        
     # update step
     time = conf.tau*(i+1)
     opt.step(time=time)
