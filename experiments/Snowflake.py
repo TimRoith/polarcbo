@@ -22,21 +22,21 @@ conf.x_max = 2
 conf.x_min = -2
 conf.random_seed = 42
 conf.d = 2
-conf.beta=1.
-conf.sigma=2.0
+conf.beta = 1.
+conf.sigma = 1.0
 
-conf.kappa = .01
+conf.kappa = 0.2
 
 conf.heavy_correction = False
 conf.num_particles = 500
 conf.factor = 1.01
-conf.noise = pcbo.noise.comp_noise(tau=conf.tau)
+conf.noise = pcbo.noise.normal_noise(tau=conf.tau)#pcbo.noise.comp_noise(tau=conf.tau)
 conf.eta = 0.5
 conf.kernel = pcbo.functional.Gaussian_kernel(kappa=conf.kappa)
 
 conf.repulsion_scale = 5.
 
-conf.optim = "CCBO"
+conf.optim = "PolarCBO"
 conf.num_means = 7
 conf.M = int(conf.num_particles)
 #%%
@@ -71,8 +71,8 @@ else:
                           beta = conf.beta, kernel=conf.kernel,\
                           repulsion_scale = conf.repulsion_scale,
                           M=conf.M)
-#beta_sched = ut.beta_eff(opt, eta=conf.eta, factor=conf.factor)
-beta_sched = pcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e7)
+# beta_sched = ut.beta_eff(opt, eta=conf.eta, factor=conf.factor)
+beta_sched = pcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e3)
 #%%
 plt.close('all')
 fig, ax = plt.subplots(1,1, squeeze=False)
