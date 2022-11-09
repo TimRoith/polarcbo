@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import logsumexp
 
 from .particledynamic import ParticleDynamic
-from kernelcbo import kernels
+from polarcbo import functional
 
 #%% Kernelized CBO
 class PolarCBO(ParticleDynamic):
@@ -10,7 +10,7 @@ class PolarCBO(ParticleDynamic):
                  beta = 1.0, noise_decay=0.0, diff_exp=1.0,\
                  tau=0.1, sigma=1.0, lamda=1.0, M=None,\
                  overshoot_correction=False, heavi_correction=False,\
-                 kernel=kernels.Gaussian_kernel()):
+                 kernel=functional.Gaussian_kernel()):
         
         super(PolarCBO, self).__init__(x, V, beta = beta)
         

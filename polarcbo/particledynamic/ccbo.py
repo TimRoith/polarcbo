@@ -2,12 +2,12 @@ import numpy as np
 from scipy.special import logsumexp
 
 from .particledynamic import ParticleDynamic
-from kernelcbo import kernels
+from polarcbo import functional
 
 #%% Multi-mean CBO    
 class CCBO(ParticleDynamic):
     def __init__(self,x, V, noise, num_means=1,\
-                 beta = 1.0, noise_decay=0.0, diff_exp=1.0,kernel=kernels.Gaussian_kernel(),\
+                 beta = 1.0, noise_decay=0.0, diff_exp=1.0,kernel=functional.Gaussian_kernel(),\
                  tau=0.1, sigma=1.0, lamda=1.0, repulsion_scale=0.0, M=None,\
                  overshoot_correction=False, heavi_correction=False):
         

@@ -3,11 +3,11 @@ from scipy.special import logsumexp
 import scipy.linalg as scpl
 
 from .particledynamic import ParticleDynamic
-from kernelcbo import kernels
+from polarcbo import functional
 
 class PolarCBS(ParticleDynamic):
     def __init__(self,x, V,\
-                 beta = 1.0, tau=0.1, mode = 'sampling', kernel=kernels.Gaussian_kernel()):
+                 beta = 1.0, tau=0.1, mode = 'sampling', kernel=functional.Gaussian_kernel()):
         
         super(PolarCBS, self).__init__(x, V, beta = beta)
         
