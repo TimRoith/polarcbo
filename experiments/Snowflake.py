@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import rotate
 import matplotlib as mpl
+import matplotlib.cm as cmp
+
 
 #%% custom imports
 from inspect import getsourcefile
@@ -85,7 +87,8 @@ Z = np.zeros((num_pts_landscape,num_pts_landscape,conf.d))
 Z[:,:,0:2] = XXYY
 ZZ = conf.V(Z)#**0.1
 lsp = np.min(ZZ) + (np.max(ZZ) - np.min(ZZ))*np.linspace(0, 1, 50)**5
-cf = ax[0,0].contourf(XX,YY,ZZ, levels=lsp, cmap=mpl.colormaps['Blues'])
+
+cf = ax[0,0].contourf(XX,YY,ZZ, levels=lsp, cmap=cmp.get_cmap('Blues'))
 #plt.colorbar(cf)
 scx = ax[0,0].scatter(opt.x[:,0], opt.x[:,1], marker='o', color='w', s=12, alpha=.5)
 quiver = ax[0,0].quiver(opt.x[:,0], opt.x[:,1], opt.m_beta[:,0]-opt.x[:,0], opt.m_beta[:,1]-opt.x[:,1], color='w', scale=20)
