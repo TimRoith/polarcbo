@@ -20,26 +20,43 @@ cur_path = os.path.dirname(os.path.realpath(__file__))
 
 #%% set parameters
 conf = pcbo.utils.config()
-conf.num_steps = 100
+conf.num_steps = 1000
 conf.tau=0.01
 conf.x_max =7
 conf.x_min = -7
-conf.random_seed = 309
-conf.d = 2
-conf.beta=1.0
-conf.sigma=1.0
+conf.random_seed = None
+conf.d = 30
+conf.beta=30
+conf.sigma=7.5
 conf.kappa = 0.5
 conf.heavy_correction = False
 conf.num_particles = 300
-conf.factor = 1.0
-conf.noise = pcbo.noise.normal_noise(tau=conf.tau)
+conf.factor = 1.01
+conf.noise = pcbo.noise.comp_noise(tau=conf.tau)
 conf.eta = 0.5
 conf.num_cores = 8
 conf.num_runs = 3
+conf.beta_max = 1e7
+conf.repulsion_scale = 5.
+conf.optim = "CCBO"
+conf.num_means = 5
+conf.M = int(conf.num_particles * 0.8)
 
 # target function
-z = np.array([[-2,0],[3,1],[-4,-2]])
-alphas = np.array([1,1,1])
+# target function
+uni_modal = False
+if uni_modal:   
+    z = np.array([[3.,2.]])
+    alphas = np.array([1])
+    z = np.pad(z, [[0,0], [0,conf.d-2]])
+else:
+    z = np.zeros((3, conf.d))
+    z[0,:] = np.array([[-2,1] for i in range(conf.d//2)]).ravel()
+    z[1,:] = np.array([[2,-1] for i in range(conf.d//2)]).ravel()
+    z[2,:] = np.array([[-1,-3] for i in range(conf.d//2)]).ravel()
+    alphas = np.array([1,1,1])
+
+
 conf.V = pcbo.objectives.Ackley_multimodal(alpha=alphas,z=z)
 conf.minima = conf.V.minima
 
@@ -66,15 +83,25 @@ for opt, arg in opts:
     elif opt in ("-c", "--num_cores"):
         conf.num_cores = int(arg)
 
+conf.kernel = pcbo.functional.Gaussian_kernel(kappa=conf.kappa)
+#conf.kernel = ut.Vesuvio_kernel(kappa=conf.kappa)
 #%%
 def run(num_run):
     np.random.seed(seed=num_run**4)
     x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                                x_min=conf.x_min, x_max=conf.x_max)
         
-    opt = pdyn.KernelCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
-                       kernel=pcbo.functional.Gaussian_kernel(kappa=conf.kappa))
-    beta_sched = pcbo.scheduler.beta_eff(opt, eta=conf.eta, factor=conf.factor)
+    # optim = "MultiMeanCBO"
+    if conf.optim == "KernelCBO":
+        opt = pdyn.KernelCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+                           beta = conf.beta, kernel=conf.kernel)
+    else:
+        
+        opt = pdyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
+                       beta = conf.beta, kernel=conf.kernel,\
+                       repulsion_scale = conf.repulsion_scale, M=conf.M)
+    #
+    beta_sched = pcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=conf.beta_max)
     
     #%% main loop
     for i in range(conf.num_steps):
