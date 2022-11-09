@@ -37,16 +37,16 @@ kernel = 'Gaussian'
 
 if kernel == 'Gaussian':
     conf.kappa = 0.5
-    conf.kernel = pcbo.kernels.Gaussian_kernel(kappa=conf.kappa)    
+    conf.kernel = pcbo.functional.Gaussian_kernel(kappa=conf.kappa)    
 elif kernel == 'Laplace':
     conf.kappa = .05
-    conf.kernel = pcbo.kernels.Laplace_kernel(kappa=conf.kappa)    
+    conf.kernel = pcbo.functional.Laplace_kernel(kappa=conf.kappa)    
 elif kernel == 'Constant':
     conf.kappa = 2
-    conf.kernel = pcbo.kernels.Constant_kernel(kappa=conf.kappa)        
+    conf.kernel = pcbo.functional.Constant_kernel(kappa=conf.kappa)        
 elif kernel == 'InverseQuadratic':
     conf.kappa = 1e-7
-    conf.kernel = pcbo.kernels.InverseQuadratic_kernel(kappa=conf.kappa)        
+    conf.kernel = pcbo.functional.InverseQuadratic_kernel(kappa=conf.kappa)        
 else:
     raise ValueError('Unknown kernel')
 

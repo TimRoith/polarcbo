@@ -26,7 +26,7 @@ conf.random_seed = 24
 conf.d = 2
 conf.beta = 1.0
 conf.kappa = 0.8 
-conf.kernel = pcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
+conf.kernel = pcbo.functional.Gaussian_kernel(kappa=conf.kappa)
 
 conf.num_particles = 200
 

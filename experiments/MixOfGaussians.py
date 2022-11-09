@@ -54,7 +54,7 @@ for kappa in kappas:
                           x_min=conf.x_min, x_max=conf.x_max)
     #%% init optimizer 
     opt = pdyn.PolarCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\
-                     kernel=pcbo.kernels.Gaussian_kernel(kappa=conf.kappa))   
+                     kernel=pcbo.functional.Gaussian_kernel(kappa=conf.kappa))   
     
     #%% plot loss landscape and scatter
     plt.close('all')

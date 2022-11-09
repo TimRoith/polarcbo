@@ -33,8 +33,8 @@ conf.factor = 1.0
 conf.eta = 0.5
 
 conf.noise = pcbo.noise.normal_noise(tau=conf.tau)
-conf.kappa = 0.8#np.inf
-conf.kernel = pcbo.kernels.Gaussian_kernel(kappa=conf.kappa)
+conf.kappa = 0.8 #np.inf
+conf.kernel = pcbo.functional.Gaussian_kernel(kappa=conf.kappa)
 
 
 #%% initialize scheme
