@@ -12,15 +12,14 @@ import os.path as path, sys
 current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
-import optimizers as op
-import test_functions as tf
-import utils as ut
+import polarcbo as pcbo
+import polarcbo.particledynamic as pdyn
 
 #%%
 cur_path = os.path.dirname(os.path.realpath(__file__))
 
 #%% set parameters
-conf = ut.config()
+conf = pcbo.utils.config()
 conf.num_steps = 100
 conf.tau=0.01
 conf.x_max =7
@@ -33,7 +32,7 @@ conf.kappa = 0.5
 conf.heavy_correction = False
 conf.num_particles = 300
 conf.factor = 1.0
-conf.noise = ut.normal_noise(tau=conf.tau)
+conf.noise = pcbo.noise.normal_noise(tau=conf.tau)
 conf.eta = 0.5
 conf.num_cores = 8
 conf.num_runs = 3
@@ -41,7 +40,7 @@ conf.num_runs = 3
 # target function
 z = np.array([[-2,0],[3,1],[-4,-2]])
 alphas = np.array([1,1,1])
-conf.V = tf.Ackley_multimodal(alpha=alphas,z=z)
+conf.V = pcbo.objectives.Ackley_multimodal(alpha=alphas,z=z)
 conf.minima = conf.V.minima
 
 #%%
@@ -70,12 +69,12 @@ for opt, arg in opts:
 #%%
 def run(num_run):
     np.random.seed(seed=num_run**4)
-    x = ut.init_particles(num_particles=conf.num_particles, d=conf.d,\
+    x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                                x_min=conf.x_min, x_max=conf.x_max)
         
-    opt = op.KernelCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
-                       kernel=ut.Gaussian_kernel(kappa=conf.kappa))
-    beta_sched = ut.beta_eff(opt, eta=conf.eta, factor=conf.factor)
+    opt = pdyn.KernelCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+                       kernel=pcbo.functional.Gaussian_kernel(kappa=conf.kappa))
+    beta_sched = pcbo.scheduler.beta_eff(opt, eta=conf.eta, factor=conf.factor)
     
     #%% main loop
     for i in range(conf.num_steps):
@@ -113,7 +112,12 @@ if __name__ == '__main__':
     
     #%% set up csv file and save parameters
     time_str = time.strftime("%Y%m%d-%H%M%S")
-    fname = "data/Ackley" + str(conf.d) + "d-kappa-" + str(conf.kappa) + "-" + "J-" + str(conf.num_particles) + "-" + time_str + '.csv'
+    folder_path ='data/Ackley-' + time_str + '/'
+    
+    if not os.path.isdir(folder_path):
+        os.makedirs(folder_path)
+    
+    fname = folder_path + str(conf.d) + "d-kappa-" + str(conf.kappa) + "-" + "J-" + str(conf.num_particles) + "-" + time_str + '.csv'
     with open(fname, 'w') as f:
         writer = csv.writer(f, lineterminator = '\n')
         conf_vars = vars(conf)
