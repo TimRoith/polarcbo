@@ -18,15 +18,15 @@ conf.T = 5000
 conf.tau=0.01
 conf.x_max = 2
 conf.x_min = -2
-conf.random_seed = 225
+conf.random_seed = 42
 conf.d = 2
-conf.beta=30
-conf.sigma=8.1
+conf.beta=1.
+conf.sigma=2.0
 
-conf.kappa = .1#0.000755
+conf.kappa = .01
 
 conf.heavy_correction = False
-conf.num_particles = 100
+conf.num_particles = 500
 conf.factor = 1.01
 conf.noise = pcbo.noise.comp_noise(tau=conf.tau)
 conf.eta = 0.5
@@ -34,8 +34,8 @@ conf.kernel = pcbo.functional.Gaussian_kernel(kappa=conf.kappa)
 
 conf.repulsion_scale = 5.
 
-conf.optim = "PolarCBO"
-conf.num_means = 5
+conf.optim = "CCBO"
+conf.num_means = 7
 conf.M = int(conf.num_particles)
 #%%
 class Snowflake():
@@ -43,41 +43,34 @@ class Snowflake():
         self.alpha = alpha
 
     def __call__(self, x):
-        x = self.alpha * x
-        if len(x.shape)<3:
-            xx, yy = np.meshgrid(x[:,0],x[:,1])
-            x = np.stack((xx.T,yy.T)).T
+        x = self.alpha * x 
+        r = np.linalg.norm(x,axis=-1)
+        phi = np.arctan2(x[...,1], x[...,0])
         
-        res = np.zeros((x.shape[:-1]))
-        #idx = np.where(np.isclose(x[...,0], x[...,1]))
+        res = np.ones((x.shape[:-1]))
+        for psi in [0, np.pi/3, np.pi*2/3]:
+            g = r**8 - r**4 + np.abs(np.cos(phi+psi))**0.5*r**0.3
+            res = np.minimum(res, g)
         
-        res = (x[...,0]**4 - np.abs(x[...,0]))**2
-        #res += np.minimum(np.abs(x[...,0]), np.abs(x[...,1]))
-        res += 3*np.abs(x[...,1])
-        res_rot_60 = rotate(res, angle=60,reshape=False, mode='nearest')
-        res_rot_120 = rotate(res, angle=120,reshape=False, mode='nearest')
-        res = np.minimum(res,res_rot_60)
-        res = np.minimum(res,res_rot_120)
-        
-        res = np.minimum(res, 1.5)
+        res = np.minimum(res, .8)
         return res
     
-conf.V = Snowflake(alpha=.7)
+conf.V = Snowflake(alpha=.55)
 #%% initialize scheme
-# np.random.seed(seed=conf.random_seed)
-# x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
-#                       x_min=conf.x_min, x_max=conf.x_max)
-# #%% init optimizer and scheduler
-# if conf.optim == "PolarCBO":
-#     opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
-#                        beta = conf.beta, kernel=conf.kernel)
-# else:
-#     opt = pdyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
-#                           beta = conf.beta, kernel=conf.kernel,\
-#                           repulsion_scale = conf.repulsion_scale,
-#                           M=conf.M)
-# #beta_sched = ut.beta_eff(opt, eta=conf.eta, factor=conf.factor)
-# beta_sched = pcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e7)
+np.random.seed(seed=conf.random_seed)
+x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
+                      x_min=conf.x_min, x_max=conf.x_max)
+#%% init optimizer and scheduler
+if conf.optim == "PolarCBO":
+    opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+                        beta = conf.beta, kernel=conf.kernel)
+else:
+    opt = pdyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
+                          beta = conf.beta, kernel=conf.kernel,\
+                          repulsion_scale = conf.repulsion_scale,
+                          M=conf.M)
+#beta_sched = ut.beta_eff(opt, eta=conf.eta, factor=conf.factor)
+beta_sched = pcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e7)
 #%%
 plt.close('all')
 fig, ax = plt.subplots(1,1, squeeze=False)
@@ -94,10 +87,9 @@ ZZ = conf.V(Z)#**0.1
 lsp = np.min(ZZ) + (np.max(ZZ) - np.min(ZZ))*np.linspace(0, 1, 50)**5
 cf = ax[0,0].contourf(XX,YY,ZZ, levels=lsp, cmap=mpl.colormaps['Blues'])
 #plt.colorbar(cf)
-scx = ax[0,0].scatter(opt.x[:,0], opt.x[:,1], marker='o', color=colors[1], s=12)
-scm = ax[0,0].scatter(opt.m_beta[:,0], opt.m_beta[:,1], marker='x', color=colors[2], s=30)
-quiver = ax[0,0].quiver(opt.x[:,0], opt.x[:,1], opt.m_beta[:,0]-opt.x[:,0], opt.m_beta[:,1]-opt.x[:,1], color=colors[1], scale=20)
-#scm = ax[0,0].scatter(opt.m_beta[:,0], opt.m_beta[:,1], marker='x', color=colors[0], s=50)
+scx = ax[0,0].scatter(opt.x[:,0], opt.x[:,1], marker='o', color='w', s=12, alpha=.5)
+quiver = ax[0,0].quiver(opt.x[:,0], opt.x[:,1], opt.m_beta[:,0]-opt.x[:,0], opt.m_beta[:,1]-opt.x[:,1], color='w', scale=20)
+scm = ax[0,0].scatter(opt.m_beta[:,0], opt.m_beta[:,1], marker='2', color=colors[3], s=50, alpha=.5)
 
 ax[0,0].axis('square')
 ax[0,0].set_xlim(conf.x_min,conf.x_max)
@@ -107,17 +99,22 @@ plt.colorbar(cf)
 time = 0.0
 save_plots = False
 
+plot_mod = 1
+
 #%% main loop
 for i in range(conf.T):
+    
+   
     # plot
-    if i%20 == 0:
+    if i%plot_mod== 0:
+        plot_mod = min(2*plot_mod, 20)
         scx.set_offsets(opt.x[:, 0:2])
         scm.set_offsets(opt.m_beta[:, 0:2])
         #scm.set_offsets(opt.m_beta[:, 0:2])
         quiver.set_offsets(np.array([opt.x[:,0], opt.x[:,1]]).T)
         quiver.set_UVC(opt.m_beta[:,0]-opt.x[:,0], opt.m_beta[:,1]-opt.x[:,1])
         plt.title('Time = ' + str(time) + ' beta: ' + str(opt.beta) + ' kappa: ' + str(opt.kernel.kappa))
-        plt.pause(0.1)
+        plt.pause(0.5)
         plt.show()
         
         # if i in snapshots and save_plots:
