@@ -16,7 +16,7 @@ The position of the particles are updated via the stochastic ODE
 $$
 \begin{align}
     \boxed{%
-    \d x^{(i)} = -(x^{(i)} - m(x^{(i)})) \d t + \sigma |x^{(i)} - m(x^{(i)})| \d W^{(i)}
+    d x^{(i)} = -(x^{(i)} - m(x^{(i)})) d t + \sigma |x^{(i)} - m(x^{(i)})| d W^{(i)}
     }
 \end{align}
 $$
