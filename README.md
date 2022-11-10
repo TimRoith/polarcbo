@@ -1,5 +1,7 @@
 # Polarized Consensus-Based Optimization
 
+![PolarGIF](https://user-images.githubusercontent.com/44805883/201196111-d4dcc1c3-4ee9-47df-927a-e03659c990cd.gif)
+
 Ploraized swarm dynamics for optimization and sampling.
 
 ## What is PolarCBO?
@@ -21,5 +23,9 @@ $$
 
 where
 
+* $dt$ is the time stepping parameter
 * $\xi$
+* $\sigma$ scales the influence of the noise term
+
+The choice of $m$ is the heart of PolarCBO
 
