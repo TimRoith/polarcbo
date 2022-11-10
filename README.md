@@ -11,20 +11,19 @@ Polarized consensus-based dynamics allow to apply consensus-based optimization (
 * particles $\{x^{(i)}\}\in\mathbb{R}^d$ which explore the space,
 * the objective $V:\mathbb{R}^d\to\mathbb{R}$ which we want to optimize.
 
-The position of the particles are updated via
+The position of the particles are updated via the stochastic ODE
 
 $$
 \begin{align}
     \boxed{%
-    d x^{(i)} = -(x^{(i)} - m(x^{(i)})) d t + \sigma |x^{(i)} - m(x^{(i)})| \xi
+    \d x^{(i)} = -(x^{(i)} - m(x^{(i)})) \d t + \sigma |x^{(i)} - m(x^{(i)})| \d W^{(i)}
     }
 \end{align}
 $$
 
 where
 
-* $dt$ is the time stepping parameter
-* $\xi \sim \mathcal N(0,dt)$ is a Gaussian random variable
+* $W^{(i)}$ are independent Brownian motions
 * $\sigma$ scales the influence of the noise term
 
 The choice of $m$ is the heart of PolarCBO
