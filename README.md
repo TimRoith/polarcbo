@@ -2,8 +2,7 @@
 
 ![PolarGIF](https://user-images.githubusercontent.com/44805883/201196111-d4dcc1c3-4ee9-47df-927a-e03659c990cd.gif)
 
-This code produces the examples for the paper "Polarized consensus-based dynamics for optimization and sampling
-": https://arxiv.org/abs/2211.05238
+This code produces the examples for the paper "Polarized consensus-based dynamics for optimization and sampling": https://arxiv.org/abs/2211.05238
 
 ```
 @online{bungert2022polarized,
