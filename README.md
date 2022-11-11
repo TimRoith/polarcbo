@@ -23,8 +23,8 @@ $$
 
 where
 
-* $W^{(i)}$ are independent Brownian motions
-* $\sigma$ scales the influence of the noise term
+* $W^{(i)}$ are independent Brownian motions,
+* $\sigma$ scales the influence of the noise term.
 
-The choice of $m$ is the heart of PolarCBO
+The choice of $m$ is the heart of PolarCBO.
 
