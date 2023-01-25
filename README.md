@@ -1,4 +1,4 @@
-# Polarized Consensus-Based Optimization and Sampling
+# :snowflake: Polarized Consensus-Based Optimization and Sampling
 
 ![PolarGIF](https://user-images.githubusercontent.com/44805883/201196111-d4dcc1c3-4ee9-47df-927a-e03659c990cd.gif)
 
@@ -15,7 +15,7 @@ This code produces the examples for the paper "Polarized consensus-based dynamic
 }
 ```
 
-## What is PolarCBO/CBS?
+## 💡 What is PolarCBO/CBS?
 
 Polarized consensus-based dynamics allow to apply consensus-based optimization (CBO) and sampling (CBS) for objective functions with several global minima or distributions with many modes, respectively. Here we have 
 
