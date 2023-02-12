@@ -1,6 +1,6 @@
-from . import particledynamic as particledynamic
-from . import noise as noise
-from . import functional as functional
-from . import scheduler as scheduler
-from . import utils as utils
-from . import objectives as objectives
+from polarcbo import dynamic
+from polarcbo import noise
+from polarcbo import functional
+from polarcbo import scheduler
+from polarcbo import utils
+from polarcbo import objectives

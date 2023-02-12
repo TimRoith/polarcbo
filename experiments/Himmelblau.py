@@ -10,7 +10,7 @@ current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
 import polarcbo as pcbo
-import polarcbo.particledynamic as pdyn
+import polarcbo.dynamic as dyn
 
 #%%
 cur_path = os.path.dirname(os.path.realpath(__file__))
@@ -42,9 +42,9 @@ np.random.seed(seed=conf.random_seed)
 x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
-opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+opt = dyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                     kernel=conf.kernel)
-# opt = pdyn.CCBO(x, conf.V, conf.noise, beta=conf.beta, tau=conf.tau,\
+# opt = dyn.CCBO(x, conf.V, conf.noise, beta=conf.beta, tau=conf.tau,\
 #                       sigma=conf.sigma, kernel=conf.kernel,\
 #                       num_means = 4, repulsion_scale = 1)    
 beta_sched = pcbo.scheduler.beta_eff(opt, eta=conf.eta, factor=conf.factor)

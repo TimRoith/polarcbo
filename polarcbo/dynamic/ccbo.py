@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.special import logsumexp
 
-from .particledynamic import ParticleDynamic
+from .pdyn import ParticleDynamic
 from polarcbo import functional
 
 #%% Multi-mean CBO    

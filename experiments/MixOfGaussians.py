@@ -10,7 +10,7 @@ current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
 import polarcbo as pcbo
-import polarcbo.particledynamic as pdyn
+import polarcbo.dynamic as dyn
 
 #%%
 cur_path = os.path.dirname(os.path.realpath(__file__))
@@ -53,7 +53,7 @@ for kappa in kappas:
     x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                           x_min=conf.x_min, x_max=conf.x_max)
     #%% init optimizer 
-    opt = pdyn.PolarCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\
+    opt = dyn.PolarCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\
                      kernel=pcbo.functional.Gaussian_kernel(kappa=conf.kappa))   
     
     #%% plot loss landscape and scatter

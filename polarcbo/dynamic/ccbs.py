@@ -3,7 +3,7 @@ from scipy.special import logsumexp
 import scipy.linalg as scpl
 import warnings
 
-from .particledynamic import ParticleDynamic
+from .pdyn import ParticleDynamic
 from polarcbo import functional
 
 #%% Multi-mean CBS (deprecated)

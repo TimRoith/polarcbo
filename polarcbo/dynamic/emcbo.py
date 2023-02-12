@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import logsumexp
 from sklearn.mixture import GaussianMixture, multivariate_normal
 
-from .particledynamic import ParticleDynamic
+from .pdyn import ParticleDynamic
 
 
 #%% EM CBO

@@ -2,13 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #%% custom imports
-from inspect import getsourcefile
-import os.path as path, sys
-current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
-sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
+# from inspect import getsourcefile
+# import os.path as path, sys
+# current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
+# sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
 import polarcbo as pcbo
-import polarcbo.particledynamic as pdyn
+import polarcbo.dynamic as dyn
 
 
 #%% set parameters
@@ -60,10 +60,10 @@ x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
 if conf.optim == "PolarCBO":
-    opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+    opt = dyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                        beta = conf.beta, kernel=conf.kernel)
 else:
-    opt = pdyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
+    opt = dyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
                           beta = conf.beta, kernel=conf.kernel,\
                           repulsion_scale = conf.repulsion_scale,
                           M=conf.M)

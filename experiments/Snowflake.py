@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.ndimage import rotate
-import matplotlib as mpl
 import matplotlib.cm as cmp
+import os
 
 
 #%% custom imports
@@ -12,11 +11,11 @@ current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
 
 import polarcbo as pcbo
-import polarcbo.particledynamic as pdyn
+import polarcbo.dynamic as dyn
 
 #%% set parameters
 conf = pcbo.utils.config()
-conf.T = 5000
+conf.T = 1500
 conf.tau=0.01
 conf.x_max = 2
 conf.x_min = -2
@@ -64,10 +63,10 @@ x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
 if conf.optim == "PolarCBO":
-    opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+    opt = dyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                         beta = conf.beta, kernel=conf.kernel)
 else:
-    opt = pdyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
+    opt = dyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
                           beta = conf.beta, kernel=conf.kernel,\
                           repulsion_scale = conf.repulsion_scale,
                           M=conf.M)
@@ -76,10 +75,11 @@ beta_sched = pcbo.scheduler.beta_exponential(opt, r=conf.factor, beta_max=1e2)
 #%%
 plt.close('all')
 fig, ax = plt.subplots(1,1, squeeze=False)
+factor_y = 2.5
 
 colors = ['peru','tab:pink','deeppink', 'steelblue', 'tan', 'sienna',  'olive', 'coral']
 num_pts_landscape = 500
-xx = np.linspace(conf.x_min, conf.x_max, num_pts_landscape)
+xx = np.linspace(factor_y*conf.x_min, factor_y*conf.x_max, num_pts_landscape)
 yy = np.linspace(conf.x_min,conf.x_max, num_pts_landscape)
 XX, YY = np.meshgrid(xx,yy)
 XXYY = np.stack((XX.T,YY.T)).T
@@ -91,37 +91,44 @@ lsp = np.min(ZZ) + (np.max(ZZ) - np.min(ZZ))*np.linspace(0, 1, 50)**5
 cf = ax[0,0].contourf(XX,YY,ZZ, levels=lsp, cmap=cmp.get_cmap('Blues'))
 #plt.colorbar(cf)
 scx = ax[0,0].scatter(opt.x[:,0], opt.x[:,1], marker='o', color='w', s=12, alpha=.5)
-quiver = ax[0,0].quiver(opt.x[:,0], opt.x[:,1], opt.m_beta[:,0]-opt.x[:,0], opt.m_beta[:,1]-opt.x[:,1], color='w', scale=20)
-scm = ax[0,0].scatter(opt.m_beta[:,0], opt.m_beta[:,1], marker='2', color=colors[3], s=50, alpha=.5)
+quiver = ax[0,0].quiver(opt.x[:,0], opt.x[:,1], opt.m_beta[:,0]-opt.x[:,0], opt.m_beta[:,1]-opt.x[:,1],\
+                        color='w', scale=1.,scale_units='xy', angles='xy', width=0.001)
+scm = ax[0,0].scatter(opt.m_beta[:,0], opt.m_beta[:,1], marker='H', color=colors[3], s=30, alpha=.5)
 
-ax[0,0].axis('square')
-ax[0,0].set_xlim(conf.x_min,conf.x_max)
+#ax[0,0].axis('square')
+ax[0,0].set_aspect('equal')
+ax[0,0].axis('off')
+ax[0,0].set_xlim(factor_y*conf.x_min,factor_y*conf.x_max)
 ax[0,0].set_ylim(conf.x_min,conf.x_max)
-plt.colorbar(cf)
+#plt.colorbar(cf)
 
 time = 0.0
-save_plots = False
+save_plots = True
+save_path = "visualization/Snowflake/"
+if not os.path.isdir(save_path):
+    os.makedirs(save_path)
 
 plot_mod = 1
+img_idx = 0
+
 
 #%% main loop
 for i in range(conf.T):
-    
-   
     # plot
     if i%plot_mod== 0:
-        plot_mod = min(2*plot_mod, 20)
+        plot_mod = min(2*plot_mod, 40)
         scx.set_offsets(opt.x[:, 0:2])
         scm.set_offsets(opt.m_beta[:, 0:2])
         #scm.set_offsets(opt.m_beta[:, 0:2])
         quiver.set_offsets(np.array([opt.x[:,0], opt.x[:,1]]).T)
         quiver.set_UVC(opt.m_beta[:,0]-opt.x[:,0], opt.m_beta[:,1]-opt.x[:,1])
-        plt.title('Time = ' + str(time) + ' beta: ' + str(opt.beta) + ' kappa: ' + str(opt.kernel.kappa))
-        plt.pause(0.5)
+        #plt.title('Time = ' + str(time) + ' beta: ' + str(opt.beta) + ' kappa: ' + str(opt.kernel.kappa))
+        plt.pause(0.1)
         plt.show()
         
-        # if i in snapshots and save_plots:
-        #     fig.savefig(cur_path+"\\visualizations\\Ackley\\Ackley-i-" + str(i) + "-kappa-" + str(conf.kappa) + ".pdf",bbox_inches="tight")
+        if save_plots:
+            img_idx += 1
+            fig.savefig(save_path + "Flake-" + str(img_idx) + ".png",bbox_inches="tight", dpi=300)
     
     # update step
     time = conf.tau*(i+1)

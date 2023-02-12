@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.special import logsumexp
 
-from .particledynamic import ParticleDynamic
+from .pdyn import ParticleDynamic
 
 #%% CBO
 class CBO(ParticleDynamic):

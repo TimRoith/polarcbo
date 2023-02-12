@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import logsumexp
 import scipy.linalg as scpl
 
-from .particledynamic import ParticleDynamic
+from .pdyn import ParticleDynamic
 from polarcbo import functional
 
 class PolarCBS(ParticleDynamic):
