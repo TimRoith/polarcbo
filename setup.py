@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="polarcbo", 
-    version="0.1.0",
+    version="0.1.1",
     author="Tim Roith",
     author_email="tim.roith@fau.de",
     description="Python package for Polarized Consensus Based Optimization",
