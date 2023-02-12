@@ -11,7 +11,7 @@ setuptools.setup(
     description="Python package for Polarized Consensus Based Optimization",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/TimRoith/PolarCBO",
+    url="https://github.com/TimRoith/polarcbo",
     packages=setuptools.find_packages(),
     classifiers=[
                 "Programming Language :: Python :: 3",
