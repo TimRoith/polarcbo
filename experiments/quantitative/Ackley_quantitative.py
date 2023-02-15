@@ -5,18 +5,9 @@ import multiprocessing as mp
 from contextlib import closing
 import time
 import getopt
-
-#%% custom imports
-from inspect import getsourcefile
-import os.path as path, sys
-current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
-sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
-
 import polarcbo as pcbo
-import polarcbo.particledynamic as pdyn
-
-#%%
-cur_path = os.path.dirname(os.path.realpath(__file__))
+import polarcbo.dynamic as dyn
+import os.path as sys
 
 #%% set parameters
 conf = pcbo.utils.config()
@@ -90,10 +81,10 @@ def run(num_run):
                                x_min=conf.x_min, x_max=conf.x_max)
         
     if conf.optim == "PolarCbo":
-        opt = pdyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
+        opt = dyn.PolarCBO(x, conf.V, conf.noise, sigma=conf.sigma, tau=conf.tau,\
                             beta = conf.beta, kernel=conf.kernel)
     else:
-        opt = pdyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
+        opt = dyn.CCBO(x, conf.V, conf.noise, num_means=conf.num_means, sigma=conf.sigma, tau=conf.tau,\
                        beta = conf.beta, kernel=conf.kernel,\
                        repulsion_scale = conf.repulsion_scale, M=conf.M)
     #

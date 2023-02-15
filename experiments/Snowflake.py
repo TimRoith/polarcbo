@@ -1,17 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cmp
-import os
-
-
-#%% custom imports
-from inspect import getsourcefile
-import os.path as path, sys
-current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
-sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
-
 import polarcbo as pcbo
 import polarcbo.dynamic as dyn
+import os
+
 
 #%% set parameters
 conf = pcbo.utils.config()

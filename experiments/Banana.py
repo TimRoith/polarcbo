@@ -1,19 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rc
-import os
-
-#%% custom imports
-from inspect import getsourcefile
-import os.path as path, sys
-current_dir = path.dirname(path.abspath(getsourcefile(lambda:0)))
-sys.path.insert(0, current_dir[:current_dir.rfind(path.sep)])
-
 import polarcbo as pcbo
-import polarcbo.particledynamic as pdyn
-
-#%%
-cur_path = os.path.dirname(os.path.realpath(__file__))
+import polarcbo.dynamic as dyn
 
 #%% set parameters
 conf = pcbo.utils.config()
@@ -39,7 +28,7 @@ np.random.seed(seed=conf.random_seed)
 x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\
                       x_min=conf.x_min, x_max=conf.x_max)
 #%% init optimizer and scheduler
-opt = pdyn.PolarCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\
+opt = dyn.PolarCBS(x, conf.V, beta=conf.beta, tau=conf.tau, mode="sampling",\
                    kernel=conf.kernel)   
 
 #%% plot loss landscape and scatter
