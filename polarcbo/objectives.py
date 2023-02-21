@@ -1,3 +1,11 @@
+"""
+Objectives
+==========
+
+This module implements 
+
+"""
+
 import numpy as np
 #%% Objective function
 def Rosenbrock(x, a=1.0, b=100.0):

@@ -1,3 +1,11 @@
+r"""
+Scheduler
+==========
+
+This module implements the :math:`\beta`-schedulers employed in the conensuse schemes.
+
+"""
+
 import numpy as np
 from scipy.special import logsumexp
 

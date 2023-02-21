@@ -1,3 +1,11 @@
+r"""
+Scheduler
+==========
+
+This module implements utility functions.
+
+"""
+
 import numpy as np
 from scipy.special import logsumexp
 

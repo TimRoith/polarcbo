@@ -1,3 +1,13 @@
+"""
+Noise
+======
+
+This module implements some noise models commonly used in conensus 
+based methods. They are similarly implemented as classes, where the 
+``__call__`` function has the signature 
+
+"""
+
 import numpy as np
 
 class normal_noise():

@@ -2,10 +2,10 @@ import numpy as np
 from scipy.special import logsumexp
 import sklearn.cluster as skc
 
-from .optimizer import Optimizer
+from .pdyn import ParticleDynamic
 
 #KMeans CBO
-class KMeansCBO(Optimizer):
+class KMeansCBO(ParticleDynamic):
     def __init__(self,x, V, noise,\
                  beta = 1.0, noise_decay=0.0, diff_exp=1.0, kappa = 1.0,\
                  tau=0.1, sigma=1.0, lamda=1.0, n_clusters=1):

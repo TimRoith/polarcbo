@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.special import logsumexp
-from sklearn.mixture import GaussianMixture, multivariate_normal
+from scipy.stats import multivariate_normal
+from sklearn.mixture import GaussianMixture
 
 from .pdyn import ParticleDynamic
 
