@@ -2,18 +2,18 @@
 
 ![PolarGIF](https://user-images.githubusercontent.com/44805883/201196111-d4dcc1c3-4ee9-47df-927a-e03659c990cd.gif)
 
-This code produces the examples for the paper "Polarized consensus-based dynamics for optimization and sampling": https://arxiv.org/abs/2211.05238
+This package implements consensus based optimization and polarization 
+methods. The experiments in this repo reproduce the examples from the paper "Polarized consensus-based dynamics for optimization and sampling": https://arxiv.org/abs/2211.05238
+
+
+## 	:cd: Installation
+
+You can install polarcbo via
 
 ```
-@online{bungert2022polarized,
-    author = {Bungert, Leon and Roith, Tim and Wacker, Philipp},
-    title = {Polarized consensus-based dynamics for optimization and sampling},
-    year = {2022},
-    eprint={2211.05238},
-    archivePrefix={arXiv},
-    primaryClass={math.OC}
-}
+pip install polarcbo
 ```
+
 
 ## 💡 What is PolarCBO/CBS?
 
@@ -62,4 +62,26 @@ $$
 
 Note that these weighted mean and covariance give more influence to particles which are close to $x$ and have a small value of $V$. If $\mathsf k(\cdot,\cdot)=1$ one recovers standard CBO and CBS.
 
+## :microscope: Experiments
 
+
+## :open_book: Documentation
+
+You can find a documentation for the ```polarcbo``` [here]().
+
+
+## :bookmark: Cite
+
+If you want to cite this package or parts of the code you can use 
+this bibtex entry
+
+```
+@online{bungert2022polarized,
+    author = {Bungert, Leon and Roith, Tim and Wacker, Philipp},
+    title = {Polarized consensus-based dynamics for optimization and sampling},
+    year = {2022},
+    eprint={2211.05238},
+    archivePrefix={arXiv},
+    primaryClass={math.OC}
+}
+```
