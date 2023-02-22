@@ -33,7 +33,7 @@ release = 'v0.1.1'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
-    'numpydoc',
+    'sphinx.ext.napoleon',
     'sphinx.ext.mathjax',
     'sphinx.ext.autosummary'
 ]
