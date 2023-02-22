@@ -6,6 +6,7 @@ This package implements consensus based optimization and polarization
 methods. The experiments in this repo reproduce the examples from the paper "Polarized consensus-based dynamics for optimization and sampling": https://arxiv.org/abs/2211.05238
 
 
+
 ## 	:cd: Installation
 
 You can install polarcbo via
@@ -67,7 +68,7 @@ Note that these weighted mean and covariance give more influence to particles wh
 
 ## :open_book: Documentation
 
-You can find a documentation for the ```polarcbo``` [here]().
+You can find a documentation for the ```polarcbo``` [here](https://timroith.github.io/polarcbo/).
 
 
 ## :bookmark: Cite
