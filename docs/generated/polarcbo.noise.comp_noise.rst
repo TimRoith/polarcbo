@@ -5,21 +5,4 @@
 
 .. autoclass:: comp_noise
    :members:  
-   :exclude-members: __init__
    :special-members: __call__
-
-   
-
-   
-   .. rubric:: Methods
-
-   .. autosummary::
-   
-      ~comp_noise.__init__
-   
-   
-   
-
-   
-   
-   
