@@ -35,10 +35,15 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
     'sphinx.ext.mathjax',
+    'sphinx.ext.autosummary'
 ]
-
+autosummary_generate = True
+numpydoc_show_class_members = False
+#numpydoc_show_class_members = False
+#autoapi_dirs = ['../polarcbo']
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+#autoapi_generate_api_docs = False
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

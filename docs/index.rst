@@ -6,7 +6,7 @@ Polarized Consensus Based Optimization and Sampling
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents
 
    dynamic
