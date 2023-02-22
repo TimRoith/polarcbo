@@ -33,13 +33,14 @@ release = 'v0.1.1'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
-    'sphinx.ext.napoleon',
+    'numpydoc',
     'sphinx.ext.mathjax',
     'sphinx.ext.autosummary'
 ]
 autosummary_generate = True
-numpydoc_show_class_members = False
 #numpydoc_show_class_members = False
+numpydoc_show_class_members = False
+autodoc_member_order = 'bysource' 
 #autoapi_dirs = ['../polarcbo']
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -1,18 +1,16 @@
-.. .. automodule:: polarcbo.noise
-..    :members:
-..    :undoc-members:
-..    :show-inheritance:
-.. .. automodule:: polarcbo
-
-.. .. currentmodule:: polarcbo
-
 noise
-======
+=====
+
+
+.. currentmodule:: polarcbo
 
 .. autosummary::
-    :toctree: _autosummary
+   :toctree: generated
+   :nosignatures:
+   :recursive:
+   :template: classtemplate.rst
 
-    polarcbo.noise
+   noise.noise_model
+   noise.comp_noise
 
 
-.. .. currentmodule:: polarcbo

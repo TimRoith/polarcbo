@@ -12,6 +12,8 @@ from abc import ABC, abstractmethod
 
 #%%
 class noise_model(ABC):
+    """Abstract noise model
+    """
 
     @abstractmethod
     def __call__(self, m_diff):
@@ -20,7 +22,7 @@ class noise_model(ABC):
         Parameters
         ----------
         m_diff : array_like, shape (J, d) 
-            For a system of :math:`J` particles, the i-th row of this array ```m_diff[i,:]`` 
+            For a system of :math:`J` particles, the i-th row of this array ``m_diff[i,:]`` 
             represents the vector :math:`x_i - \mathsf{m}(x_i)` where :math:`x\in\R^d` denotes 
             the position of the i-th particle and :math:`\mathsf{m}(x_i)` its weighted mean.
 
@@ -53,5 +55,7 @@ class comp_noise(noise_model):
         self.tau = tau
 
     def __call__(self, m_diff):
+        """call
+        """
         z = np.random.normal(0, np.sqrt(self.tau), size=m_diff.shape) * m_diff
         return z
