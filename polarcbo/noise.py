@@ -12,12 +12,12 @@ from abc import ABC, abstractmethod
 
 #%%
 class noise_model(ABC):
-    """Abstract noise model
+    """Abstract noise model class
     """
 
     @abstractmethod
     def __call__(self, m_diff):
-        """Abstract call method for noise_model classes
+        """Call method for classes that inherit from ``noise_model``
 
         Parameters
         ----------
@@ -29,14 +29,38 @@ class noise_model(ABC):
         Returns
         -------
         n : array_like, shape (J,d)
-            The random vector that is added to each particle in the dynamic.
+            The random vector that is computed by the repspective noise model.
         """
 
 class normal_noise(noise_model):
-    """
-    Utility function.
+    r"""Model for normal distributed noise
 
-    Does some good stuff.
+    This class implements a normal noise model with zero mean and covariance matrix :math:`\tau I_d`
+    where :math:`\tau` is a parameter of the class. Given the vector :math:`x_i - \mathsf{m}(x_i)`,
+    the noise vector is computed as
+
+    .. math::
+
+        n_i = \tau \sqrt{\|x_i - \mathsf{m}(x_i)\|_2}\ \mathcal{N}(0,1)
+
+
+    Parameters
+    ----------
+    tau : float, optional
+        The parameter :math:`\tau` of the noise model. The default is 0.1.
+    
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from polarcbo.noise import normal_noise
+    >>> m_diff = np.array([[2,3], [4,5], [1,4.]])
+    >>> noise = normal_noise(tau=0.1)
+    >>> noise(m_diff)
+    array([[-2.4309445 ,  1.34997294],
+           [-1.08502177,  0.24030935],
+           [ 0.1794014 , -1.09228077]])
+
+
     """
     def __init__(self, tau = 0.1):
         self.tau = tau
@@ -46,10 +70,9 @@ class normal_noise(noise_model):
         return z * np.linalg.norm(m_diff, axis=1,keepdims=True)
     
 class comp_noise(noise_model):   
-    """
-    Utility function.
+    """Model for componentwise normal distributed noise
 
-    Does some good stuff.
+
     """    
     def __init__(self, tau = 0.1):
         self.tau = tau
@@ -59,3 +82,5 @@ class comp_noise(noise_model):
         """
         z = np.random.normal(0, np.sqrt(self.tau), size=m_diff.shape) * m_diff
         return z
+
+# %%

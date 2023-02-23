@@ -3,5 +3,6 @@
 .. currentmodule:: {{ module }}
 
 .. autoclass:: {{ objname }}
-   :members:  
+   :members:
+   :show-inheritance:
    :special-members: __call__

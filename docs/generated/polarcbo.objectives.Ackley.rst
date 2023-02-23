@@ -1,9 +1,9 @@
-﻿polarcbo.noise.comp\_noise
+﻿polarcbo.objectives.Ackley
 ==========================
 
-.. currentmodule:: polarcbo.noise
+.. currentmodule:: polarcbo.objectives
 
-.. autoclass:: comp_noise
+.. autoclass:: Ackley
    :members:
    :show-inheritance:
    :special-members: __call__

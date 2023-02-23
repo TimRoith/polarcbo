@@ -1,3 +1,5 @@
+from .pdyn import ParticleDynamic
+
 from .cbo import CBO
 
 from .ccbo import CCBO

@@ -1,9 +1,9 @@
-﻿polarcbo.noise.noise\_model
-===========================
+﻿polarcbo.noise.normal\_noise
+============================
 
 .. currentmodule:: polarcbo.noise
 
-.. autoclass:: noise_model
+.. autoclass:: normal_noise
    :members:
    :show-inheritance:
    :special-members: __call__
