@@ -59,3 +59,9 @@
 .wy-table-responsive table tbody td code {
     font-size: 100%;
 }
+
+
+code.literal {
+    color: #4883b4 !important;
+    background-color: #fbfbfb !important;
+}

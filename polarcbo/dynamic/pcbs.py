@@ -6,6 +6,32 @@ from .pdyn import ParticleDynamic
 from polarcbo import functional
 
 class PolarCBS(ParticleDynamic):
+    r"""Polarized CBS class
+
+    This class implements the polarized CBS algorithm as described in [1]_.
+
+    Parameters
+    ----------
+    x : array_like
+        The initial positions of the particles. The shape of the array should be (num_particles, num_dimensions).
+    V : obejective
+        The objective function :math:`V(x)` of the system.
+    beta : float, optional
+        The heat parameter :math:`\beta` of the system. The default is 1.0.
+    tau : float, optional
+        The time constant :math:`\tau` of the noise model. The default is 0.1.
+    mode : str, optional    
+        The mode of the algorithm. The default is ``sampling``.
+    kernel : object, optional
+        The kernel function :math:`K(x_i, x_j)` that is used to compute the mean :math:`\mathsf{m}(x_i)`. The default is ``Gaussian_kernel()``.
+    
+    References
+    ----------
+    .. [1] Bungert, L., Wacker, P., & Roith, T. (2022). Polarized consensus-based
+              dynamics for optimization and sampling. arXiv preprint arXiv:2211.05238.
+
+    """
+
     def __init__(self,x, V,\
                  beta = 1.0, tau=0.1, mode = 'sampling', kernel=functional.Gaussian_kernel()):
         
@@ -31,6 +57,18 @@ class PolarCBS(ParticleDynamic):
         
             
     def step(self,time=0.0):
+        r"""Perform one step of the algorithm
+
+        Parameters
+        ----------
+        time : float, optional
+            The current time of the algorithm. The default is 0.0.
+
+        Returns
+        -------
+        None.
+
+        """
         
         self.compute_mean()
         self.m_diff = self.x - self.m_beta
@@ -39,6 +77,15 @@ class PolarCBS(ParticleDynamic):
                
     
     def covariance_noise(self):
+        r"""Compute the covariance noise
+
+        Returns
+        -------
+        noise : array_like
+            The covariance noise.
+
+        """
+
         self.update_covariance()
         z = np.random.normal(0, 1, size=self.x.shape) # num, d
         noise = np.zeros(self.x.shape)
@@ -48,6 +95,19 @@ class PolarCBS(ParticleDynamic):
     
     
     def update_covariance(self, ind=None):
+        r"""Update the covariance matrix :math:`\mathsf{C}(x_i)` of the noise model
+
+        Parameters
+        ----------
+        ind : array_like, optional
+            The indices of the particles for which the covariance matrix is updated. The default is None.
+
+        Returns
+        -------
+        None.
+
+        """
+
         if ind is None:
             ind = np.arange(self.num_particles)             
     
@@ -73,6 +133,19 @@ class PolarCBS(ParticleDynamic):
 
 
     def compute_mean(self, ind=None):
+        r"""Compute the mean :math:`\mathsf{m}(x_i)` of the noise model
+
+        Parameters
+        ----------
+        ind : array_like, optional
+            The indices of the particles for which the mean is computed. The default is None.
+
+        Returns
+        -------
+        None.
+
+        """
+        
         if ind is None:
             ind = np.arange(self.num_particles)
         

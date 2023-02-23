@@ -5,7 +5,7 @@ from .pdyn import ParticleDynamic
 
 #%% CBO
 class CBO(ParticleDynamic):
-    r"""CBO class
+    r"""Consensus-based optimization (CBO) class
 
     This class implements the CBO algorithm as described in [1]_. The algorithm
     is a particle dynamic algorithm that is used to minimize the objective function :math:`V(x)`.
@@ -45,10 +45,8 @@ class CBO(ParticleDynamic):
         Mathematical Models and Methods in Applied Sciences, 27(01), 183-204.
     .. [2] Carrillo, J. A., Jin, S., Li, L., & Zhu, Y. (2021). A consensus-based global optimization method for high dimensional machine learning problems. 
         ESAIM: Control, Optimisation and Calculus of Variations, 27, S5.
-    .. [3] M. A. S. Amin, M. A. S. Amin, and M. A. S. Amin, “Consensus-based optimization: A survey,”
-        IEEE Transactions on Cybernetics, vol. 48, no. 1, pp. 1–13, 2017.
+    .. [3] ref missing
     .. [4] ref missing
-    .. [5] ref missing
 
     """
 

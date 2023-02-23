@@ -9,6 +9,45 @@ from polarcbo import functional
 #%% Multi-mean CBS (deprecated)
             
 class CCBS(ParticleDynamic):
+    r"""Cluster CBO class
+
+    This class implements the cluster CBO algorithm as described in [1]_. The algorithm is based on the
+    consensus-based dynamics (CBO) algorithm [2]_.
+
+    Parameters
+    ----------
+    x : array_like
+        The initial positions of the particles. The shape of the array should be (num_particles, num_dimensions).
+    V : obejective
+        The objective function :math:`V(x)` of the system.
+    beta : float, optional
+        The heat parameter :math:`\beta` of the system. The default is 1.0.
+    tau : float, optional
+        The time constant :math:`\tau` of the noise model. The default is 0.1.
+    mode : str, optional
+        The mode of the algorithm. The default is ``sampling``.
+    kernel : object, optional
+        The kernel function :math:`K(x_i, x_j)` that is used to compute the mean :math:`\mathsf{m}(x_i)`. The default is ``Gaussian_kernel()``.
+    num_means : int, optional
+        The number of means :math:`\mathsf{m}(x_i)` that are used to compute the polarized mean :math:`\mathsf{m}_\beta(x_i)`. The default is 1.
+    repulsion_scale : float, optional
+        The repulsion scale :math:`\lambda` of the repulsion term. The default is 0.0.
+
+    References
+    ----------
+    .. [1] Bungert, L., Wacker, P., & Roith, T. (2022). Polarized consensus-based
+              dynamics for optimization and sampling. arXiv preprint arXiv:2211.05238.
+    .. [2] Pinnau, R., Totzeck, C., Tse, O., & Martin, S. (2017). A consensus-based model for global optimization and its mean-field limit. 
+           Mathematical Models and Methods in Applied Sciences, 27(01), 183-204.
+
+    See Also
+    --------
+    CBO : Consensus-based dynamics
+    PolarCBS : Polarized CBS
+    CCBO : Cluster CBO
+    
+    """
+
     def __init__(self,x, V,\
                  beta = 1.0, tau=0.1, mode = 'sampling', kernel=functional.Gaussian_kernel(),\
                  num_means=1, repulsion_scale=0.):

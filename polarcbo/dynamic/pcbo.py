@@ -6,6 +6,51 @@ from polarcbo import functional
 
 #%% Kernelized CBO
 class PolarCBO(ParticleDynamic):
+    r"""Polarized CBO class
+
+    This class implements the polarized consensus-based optimization (PolarCBO) algorithm as described in
+    [1]_. The algorithm is a polarized version of the consensus-based optimization (CBO) algorithm [2]_.
+
+    Parameters
+    ----------
+    x : array_like
+        The initial positions of the particles. The shape of the array should be (num_particles, num_dimensions).
+    V : obejective
+        The objective function :math:`V(x)` of the system.
+    beta : float, optional
+        The heat parameter :math:`\beta` of the system. The default is 1.0.
+    noise : noise_model, optional
+        The noise model that is used to compute the noise vector. The default is ``normal_noise(tau=0.1)``.
+    noise_decay : float, optional
+        The decay parameter :math:`\lambda` of the noise model. The default is 0.0.
+    diff_exp : float, optional  
+        The exponent :math:`\alpha` of the difference vector :math:`x_i - \mathsf{m}(x_i)`. The default is 1.0.
+    tau : float, optional
+        The time constant :math:`\tau` of the noise model. The default is 0.1.
+    sigma : float, optional
+        The standard deviation :math:`\sigma` of the noise model. The default is 1.0.
+    lamda : float, optional
+        The overshoot parameter :math:`\lambda` of the algorithm. The default is 1.0.
+    M : int, optional
+        The number of particles that are used to compute the batch mean :math:`\mathsf{m}(x_i)`. The default is ``None``.
+    overshoot_correction : bool, optional
+        If ``True``, the overshoot correction is applied. The default is ``False``.
+    heavi_correction : bool, optional
+        If ``True``, the Heaviside correction is applied. The default is ``False``.
+    kernel : object, optional
+        The kernel function :math:`K(x_i, x_j)` that is used to compute the mean :math:`\mathsf{m}(x_i)`. The default is ``Gaussian_kernel()``.
+    
+    References
+    ----------
+    .. [1] Bungert, L., Wacker, P., & Roith, T. (2022). Polarized consensus-based 
+           dynamics for optimization and sampling. arXiv preprint arXiv:2211.05238.
+
+    .. [2] Pinnau, R., Totzeck, C., Tse, O., & Martin, S. (2017). A consensus-based model for global optimization and its mean-field limit. 
+           Mathematical Models and Methods in Applied Sciences, 27(01), 183-204.
+
+    """
+
+
     def __init__(self,x, V, noise,\
                  beta = 1.0, noise_decay=0.0, diff_exp=1.0,\
                  tau=0.1, sigma=1.0, lamda=1.0, M=None,\
@@ -39,6 +84,19 @@ class PolarCBO(ParticleDynamic):
         
     
     def step(self,time=0.0):
+        r"""Step of the PolarCBO algorithm.
+
+        Parameters
+        ----------
+        time : float, optional
+            The current time of the simulation. The default is 0.0.
+
+        Returns
+        -------
+        None.
+
+        """
+
         ind = np.random.permutation(self.num_particles)
         
         for i in range(self.q):
@@ -70,6 +128,19 @@ class PolarCBO(ParticleDynamic):
         
         
     def compute_mean(self, ind=None):
+        r"""Compute the mean :math:`\mathsf{m}(x_i)` of the particles.
+
+        Parameters
+        ----------
+        ind : array_like, optional
+
+        Returns
+        -------
+        m_beta : array_like
+            The mean :math:`\mathsf{m}(x_i)` of the particles.
+
+        """
+        
         if ind is None:
             ind = np.arange(self.num_particles)
         

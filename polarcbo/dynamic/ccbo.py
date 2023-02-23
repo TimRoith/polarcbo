@@ -6,6 +6,54 @@ from polarcbo import functional
 
 #%% Multi-mean CBO    
 class CCBO(ParticleDynamic):
+    r"""Cluster CBO class
+
+    This class implements the cluster CBO algorithm as described in [1]_. The algorithm is based on the
+    consensus-based dynamics (CBO) algorithm [2]_.
+    
+    Parameters
+    ----------
+    x : array_like
+        The initial positions of the particles. The shape of the array should be (num_particles, num_dimensions).
+    V : obejective
+        The objective function :math:`V(x)` of the system.
+    beta : float, optional
+        The heat parameter :math:`\beta` of the system. The default is 1.0.
+    noise : float, optional
+        The noise parameter :math:`\sigma` of the system. The default is 1.0.
+    num_means : int, optional
+        The number of means :math:`\mathsf{m}_i` that are used to compute the mean :math:`\mathsf{m}(x_i)`. The default is 1.
+    kernel : object, optional   
+        The kernel function :math:`K(x_i, x_j)` that is used to compute the mean :math:`\mathsf{m}(x_i)`. The default is ``Gaussian_kernel()``.
+    tau : float, optional
+        The time constant :math:`\tau` of the noise model. The default is 0.1.
+    sigma : float, optional
+        The noise parameter :math:`\sigma` of the system. The default is 1.0.
+    lamda : float, optional
+        The default is 1.0.
+    repulsion_scale : float, optional
+        The repulsion scale :math:`\alpha` of the system. The default is 0.0.
+    M : int, optional
+        The number of particles that are used to compute the mean :math:`\mathsf{m}(x_i)`. The default is ``num_particles``.
+    overshoot_correction : bool, optional
+        If ``True``, the overshoot correction is applied. The default is ``False``.
+    heavi_correction : bool, optional
+        If ``True``, the Heaviside correction is applied. The default is ``False``.
+        
+    References
+    ----------
+    .. [1] Bungert, L., Wacker, P., & Roith, T. (2022). Cluster consensus-based
+              dynamics for optimization and sampling. arXiv preprint arXiv:2211.05238.
+    .. [2] Pinnau, R., Totzeck, C., Tse, O., & Martin, S. (2017). A consensus-based model for global optimization and its mean-field limit. 
+           Mathematical Models and Methods in Applied Sciences, 27(01), 183-204.
+
+    See Also
+    --------
+    CBO : Consensus-based dynamics class
+    CCBS : Cluster consensus-based sampling class
+    """
+
+
     def __init__(self,x, V, noise, num_means=1,\
                  beta = 1.0, noise_decay=0.0, diff_exp=1.0,kernel=functional.Gaussian_kernel(),\
                  tau=0.1, sigma=1.0, lamda=1.0, repulsion_scale=0.0, M=None,\
