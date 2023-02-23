@@ -1,24 +1,25 @@
 ![PolarGIF](https://user-images.githubusercontent.com/44805883/201196111-d4dcc1c3-4ee9-47df-927a-e03659c990cd.gif)
 
+[![PyPI version](https://badge.fury.io/py/polarcbo.svg)](https://badge.fury.io/py/polarcbo)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Doc](https://img.shields.io/badge/Documentation-Doc-blue)]([#Doc])
+[![Installation](https://img.shields.io/badge/Installation--yellow)]([#Installation])
+
+
 
 
 # :snowflake: Polarized Consensus-Based Optimization and Sampling
 
-[Documentation](#Doc) | [Cite](#Cite)
-
 This package implements consensus based optimization and polarization 
 methods. The experiments in this repo reproduce the examples from the paper "Polarized consensus-based dynamics for optimization and sampling": https://arxiv.org/abs/2211.05238
 
+## :rocket: Installation
 
+You can install polarcbo via pip:
 
-## 	:cd: Installation
-
-You can install polarcbo via
-
-```
+```bash
 pip install polarcbo
 ```
-
 
 ## 💡 What is PolarCBO/CBS?
 
