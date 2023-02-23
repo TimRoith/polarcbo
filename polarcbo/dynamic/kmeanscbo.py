@@ -6,6 +6,45 @@ from .pdyn import ParticleDynamic
 
 #KMeans CBO
 class KMeansCBO(ParticleDynamic):
+    r"""KMeansCBO class
+
+    This class implements the KMeansCBO algorithm. It is a particle-based algorithm that uses the KMeans algorithm
+    to cluster the particles and then uses the cluster centers as the mean of the particles in the cluster. The
+    algorithm is initialized with a set of particles and a set of weights. The weights are used to initialize the
+    KMeans algorithm. The algorithm then proceeds to update the particles according to the following rule:
+
+    .. math::
+
+        x_{k+1} = x_k - \lambda \tau \nabla \log p(x_k) + \sigma \mathcal{N}(0,I)
+
+    where :math:`\lambda` is the learning rate, :math:`\tau` is the time step, :math:`\sigma` is the noise
+    parameter and :math:`\mathcal{N}(0,I)` is a zero-mean isotropic Gaussian distribution.
+
+    Parameters
+    ----------
+    x : array_like
+        The initial positions of the particles. For a system of :math:`J` particles, the i-th row of this array ``x[i,:]``
+        represents the position :math:`x_i` of the i-th particle.
+    V : obejective
+        The objective function :math:`V(x)` of the system.
+    beta : float, optional
+        The heat parameter :math:`\beta` of the system. The default is 1.0.
+    tau : float, optional
+        The time constant :math:`\tau` of the noise model. The default is 0.01.
+    lamda : float, optional
+        The default is 1.0.
+    sigma : float, optional
+        The default is 1.0.
+    n_clusters : int, optional
+        The number of clusters to form as well as the number of centroids to generate. The default is 1.
+
+    See Also
+    --------
+    CBO : Consensus-based dynamics
+    
+    """
+
+
     def __init__(self,x, V, noise,\
                  beta = 1.0, noise_decay=0.0, diff_exp=1.0, kappa = 1.0,\
                  tau=0.1, sigma=1.0, lamda=1.0, n_clusters=1):
