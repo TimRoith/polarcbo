@@ -9,7 +9,7 @@ This module implements the :math:`\beta`-schedulers employed in the conensuse sc
 import numpy as np
 from scipy.special import logsumexp
 
-class scheduler_base:
+class scheduler_base(object):
     r"""scheduler_base class
     
     This class implements the base scheduler class. It is used to implement the :math:`\beta`-schedulers
@@ -73,12 +73,10 @@ class beta_exponential(scheduler_base):
 
     """
 
-    def __init__(self, opt, beta=1.0, beta_max = 100000., r=1.0):
-        super(scheduler_base, self).__init__(opt, beta=beta, beta_max=beta_max)
+    def __init__(self, opt, beta = 1.0, beta_max = 100000., r = 1.0):
+        super(beta_exponential, self).__init__(opt, beta = beta, beta_max = beta_max)
+
         self.r = r
-    
-    def __call__(self):
-        return self.opt.beta
     
     def update(self):
         r"""Update the :math:`\beta`-parameter in opt according to the exponential scheduler."""
@@ -132,15 +130,12 @@ class beta_eff(scheduler_base):
 
     """
     def __init__(self, opt, eta=1.0, beta_max=1e5, factor=1.05):
-        super(scheduler_base, self).__init__(opt, beta_max=beta_max)
+        super(beta_eff, self).__init__(opt, beta_max = beta_max)
 
         self.eta = eta
         self.beta_max = beta_max
         self.J_eff = 1.0
         self.factor=factor
-    
-    def __call__(self):
-        return self.opt.beta
     
     def update(self,):
         beta = self.opt.beta
