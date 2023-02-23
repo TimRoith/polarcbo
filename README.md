@@ -1,6 +1,10 @@
+![PolarGIF](https://user-images.githubusercontent.com/44805883/201196111-d4dcc1c3-4ee9-47df-927a-e03659c990cd.gif)
+
+
+
 # :snowflake: Polarized Consensus-Based Optimization and Sampling
 
-![PolarGIF](https://user-images.githubusercontent.com/44805883/201196111-d4dcc1c3-4ee9-47df-927a-e03659c990cd.gif)
+[Documentation](#Doc) | [Cite](#Cite)
 
 This package implements consensus based optimization and polarization 
 methods. The experiments in this repo reproduce the examples from the paper "Polarized consensus-based dynamics for optimization and sampling": https://arxiv.org/abs/2211.05238
@@ -65,12 +69,12 @@ Note that these weighted mean and covariance give more influence to particles wh
 
 ## :microscope: Experiments
 
-
+<a name="Doc"></a>
 ## :open_book: Documentation
 
 You can find a documentation for the ```polarcbo``` [here](https://timroith.github.io/polarcbo/).
 
-
+<a name="Cite"></a>
 ## :bookmark: Cite
 
 If you want to cite this package or parts of the code you can use 
