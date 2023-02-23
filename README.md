@@ -2,8 +2,8 @@
 
 [![PyPI version](https://badge.fury.io/py/polarcbo.svg)](https://badge.fury.io/py/polarcbo)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Doc](https://img.shields.io/badge/Documentation-Doc-blue)]([#Doc])
-[![Installation](https://img.shields.io/badge/Installation--yellow)]([#Installation])
+[![Doc](https://img.shields.io/badge/Documentation-Doc-blue)](#Doc)
+[![Installation](https://img.shields.io/badge/Installation--yellow)](#Installation)
 
 
 
@@ -13,6 +13,7 @@
 This package implements consensus based optimization and polarization 
 methods. The experiments in this repo reproduce the examples from the paper "Polarized consensus-based dynamics for optimization and sampling": https://arxiv.org/abs/2211.05238
 
+<a name="Installation"></a>
 ## :rocket: Installation
 
 You can install polarcbo via pip:
