@@ -58,7 +58,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
-#html_favicon = 'polar.ico'
+html_favicon = 'polar.ico'
 #html_theme = 'alabaster'
 
 # Add any paths that contain custom static files (such as style sheets) here,

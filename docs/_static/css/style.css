@@ -20,7 +20,7 @@
 .wy-table-responsive table {
     border: none;
     border-color: #ffffff !important;
-    table-layout: fixed;
+    /* table-layout: fixed; */
 }
 
 .wy-table-responsive table tbody td .pre {
@@ -64,4 +64,20 @@
 code.literal {
     color: #4883b4 !important;
     background-color: #fbfbfb !important;
+}
+
+.wy-nav-content {
+    max-width: none;
+}
+
+/* override table width restrictions */
+.wy-table-responsive table td, .wy-table-responsive table th {
+    /* !important prevents the common CSS stylesheets from
+       overriding this as on RTD they are loaded after this stylesheet */
+    white-space: normal !important;
+}
+
+
+.wy-table-responsive {
+    overflow: visible !important;
 }
