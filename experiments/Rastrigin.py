@@ -94,7 +94,7 @@ ax[0,0].scatter(z[:,0], z[:,1], marker='D', s=50, facecolors='none', edgecolors=
 time = 0.0
 #%% main loop
 if conf.save2disk:
-    path = cur_path+"\\visualizations\\Rastrigin\\"
+    path = cur_path+"\\visualization\\Rastrigin\\"
     os.makedirs(path, exist_ok=True) 
     
 for i in range(conf.T):
