@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 import polarcbo as pcbo
 import polarcbo.dynamic as dyn
-
+import os
+#%%
+cur_path = os.path.dirname(os.path.realpath(__file__)) #%% for save2disk=True
 #%% set parameters
 conf = pcbo.utils.config()
 conf.save2disk = False
@@ -22,7 +24,6 @@ conf.num_particles = 300
 
 # target function
 conf.V = pcbo.objectives.Banana()
-
 #%% initialize scheme
 np.random.seed(seed=conf.random_seed)
 x = pcbo.utils.init_particles(num_particles=conf.num_particles, d=conf.d,\

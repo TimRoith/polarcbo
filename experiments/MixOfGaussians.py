@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 import polarcbo as pcbo
 import polarcbo.dynamic as dyn
+import os
 
-
+cur_path = os.path.dirname(os.path.realpath(__file__)) #%% for save2disk=True
 #%% set parameters
 conf = pcbo.utils.config()
 conf.save2disk = False
@@ -18,10 +19,6 @@ conf.beta = 1.0
 kappas = [0.4, 0.6, 0.8, np.inf]
 
 conf.num_particles = 400
-
-
-
-
 # target function
 case = 'Far'
 
@@ -34,7 +31,6 @@ elif case == 'Close':
 else: 
     raise ValueError('Unknown case')
     
-
 #%%
 for kappa in kappas:
     conf.kappa = kappa
