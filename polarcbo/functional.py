@@ -23,7 +23,7 @@ class Gaussian_kernel:
             y (np.array)
         """
         
-        dists = np.linalg.norm(x-y, axis=1)
+        dists = np.linalg.norm(x-y, axis=-1)
         with np.errstate(divide='ignore', invalid='ignore'):
             return np.exp(-np.true_divide(1, 2*self.kappa**2) *dists**2)
     

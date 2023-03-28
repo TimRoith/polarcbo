@@ -97,7 +97,7 @@ ax[0,0].set_ylim(conf.x_min,conf.x_max)
 
 time = 0.0
 save_plots = True
-save_path = "visualization/Snowflake/"
+save_path = "visualizations/Snowflake/"
 if not os.path.isdir(save_path):
     os.makedirs(save_path)
 

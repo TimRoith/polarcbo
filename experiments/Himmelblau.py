@@ -71,7 +71,7 @@ quiver = ax[0,0].quiver(opt.x[:,0], opt.x[:,1], opt.m_beta[:,0]-opt.x[:,0], opt.
 time = 0.0
 #%% main loop
 if conf.save2disk:
-    path = cur_path+"\\visualizations\\Himmelblau\\"
+    path = cur_path+"\\visualization\\Himmelblau\\"
     os.makedirs(path, exist_ok=True) 
     
 for i in range(conf.T):

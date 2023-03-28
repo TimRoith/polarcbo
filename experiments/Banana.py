@@ -65,7 +65,7 @@ scm = ax[0,0].scatter(opt.m_beta[:,0], opt.m_beta[:,1], marker='x', color=colors
 time = 0.0
 #%% main loop
 if conf.save2disk:
-    path = cur_path+"\\visualizations\\Banana_1\\"
+    path = cur_path+"\\visualization\\Banana_1\\"
     os.makedirs(path, exist_ok=True) 
 
 for i in range(conf.T):

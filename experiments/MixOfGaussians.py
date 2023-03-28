@@ -75,7 +75,7 @@ for kappa in kappas:
     time = 0.0
     #%% main loop
     if conf.save2disk:
-        path = cur_path+"\\visualizations\\MixOfGaussians\\"
+        path = cur_path+"\\visualization\\MixOfGaussians\\"
         os.makedirs(path, exist_ok=True) 
         
     for i in range(conf.T):
