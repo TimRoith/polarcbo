@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>polarcbo.dynamic.PolarCBS &mdash; polarcbo v0.1.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/style.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/polar.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5e3f2911"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="polarcbo.dynamic.CCBO" href="polarcbo.dynamic.CCBO.html" />
+    <link rel="prev" title="polarcbo.dynamic.PolarCBO" href="polarcbo.dynamic.PolarCBO.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            polarcbo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../dynamic.html">dynamic</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../dynamic.html#polarcbo.dynamic.ParticleDynamic"><code class="docutils literal notranslate"><span class="pre">ParticleDynamic</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dynamic.html#standard-consensus-based-schemes">Standard Consensus Based Schemes</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../dynamic.html#polarized-consensus-based-schemes">Polarized Consensus Based Schemes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="polarcbo.dynamic.PolarCBO.html">polarcbo.dynamic.PolarCBO</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">polarcbo.dynamic.PolarCBS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#polarcbo.dynamic.PolarCBS"><code class="docutils literal notranslate"><span class="pre">PolarCBS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dynamic.html#cluster-consensus-based-schemes">Cluster Consensus Based Schemes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dynamic.html#not-maintained">Not maintained</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dynamic.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../noise.html">noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../objectives.html">objectives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scheduler.html">scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils.html">utils</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">polarcbo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../dynamic.html">dynamic</a></li>
+      <li class="breadcrumb-item active">polarcbo.dynamic.PolarCBS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/polarcbo.dynamic.PolarCBS.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="polarcbo-dynamic-polarcbs">
+<h1>polarcbo.dynamic.PolarCBS<a class="headerlink" href="#polarcbo-dynamic-polarcbs" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="polarcbo.dynamic.PolarCBS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polarcbo.dynamic.</span></span><span class="sig-name descname"><span class="pre">PolarCBS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau=0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode='sampling'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel=&lt;polarcbo.functional.Gaussian_kernel</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/polarcbo/dynamic/pcbs.html#PolarCBS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polarcbo.dynamic.PolarCBS" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../dynamic.html#polarcbo.dynamic.ParticleDynamic" title="polarcbo.dynamic.pdyn.ParticleDynamic"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParticleDynamic</span></code></a></p>
+<p>Polarized CBS class</p>
+<p>This class implements the polarized CBS algorithm as described in <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array_like</em>) – The initial positions of the particles. The shape of the array should be (num_particles, num_dimensions).</p></li>
+<li><p><strong>V</strong> (<em>obejective</em>) – The objective function <span class="math notranslate nohighlight">\(V(x)\)</span> of the system.</p></li>
+<li><p><strong>beta</strong> (<em>float</em><em>, </em><em>optional</em>) – The heat parameter <span class="math notranslate nohighlight">\(\beta\)</span> of the system. The default is 1.0.</p></li>
+<li><p><strong>tau</strong> (<em>float</em><em>, </em><em>optional</em>) – The time constant <span class="math notranslate nohighlight">\(\tau\)</span> of the noise model. The default is 0.1.</p></li>
+<li><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) – The mode of the algorithm. The default is <code class="docutils literal notranslate"><span class="pre">sampling</span></code>.</p></li>
+<li><p><strong>kernel</strong> (<em>object</em><em>, </em><em>optional</em>) – The kernel function <span class="math notranslate nohighlight">\(K(x_i, x_j)\)</span> that is used to compute the mean <span class="math notranslate nohighlight">\(\mathsf{m}(x_i)\)</span>. The default is <code class="docutils literal notranslate"><span class="pre">Gaussian_kernel()</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Bungert, L., Wacker, P., &amp; Roith, T. (2022). Polarized consensus-based
+dynamics for optimization and sampling. arXiv preprint arXiv:2211.05238.</p>
+</aside>
+</aside>
+<dl class="py method">
+<dt class="sig sig-object py" id="polarcbo.dynamic.PolarCBS.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/polarcbo/dynamic/pcbs.html#PolarCBS.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polarcbo.dynamic.PolarCBS.step" title="Link to this definition"></a></dt>
+<dd><p>Perform one step of the algorithm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>float</em><em>, </em><em>optional</em>) – The current time of the algorithm. The default is 0.0.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="polarcbo.dynamic.PolarCBS.covariance_noise">
+<span class="sig-name descname"><span class="pre">covariance_noise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/polarcbo/dynamic/pcbs.html#PolarCBS.covariance_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polarcbo.dynamic.PolarCBS.covariance_noise" title="Link to this definition"></a></dt>
+<dd><p>Compute the covariance noise</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>noise</strong> – The covariance noise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="polarcbo.dynamic.PolarCBS.update_covariance">
+<span class="sig-name descname"><span class="pre">update_covariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/polarcbo/dynamic/pcbs.html#PolarCBS.update_covariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polarcbo.dynamic.PolarCBS.update_covariance" title="Link to this definition"></a></dt>
+<dd><p>Update the covariance matrix <span class="math notranslate nohighlight">\(\mathsf{C}(x_i)\)</span> of the noise model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ind</strong> (<em>array_like</em><em>, </em><em>optional</em>) – The indices of the particles for which the covariance matrix is updated. The default is None.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="polarcbo.dynamic.PolarCBS.compute_mean">
+<span class="sig-name descname"><span class="pre">compute_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/polarcbo/dynamic/pcbs.html#PolarCBS.compute_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polarcbo.dynamic.PolarCBS.compute_mean" title="Link to this definition"></a></dt>
+<dd><p>Compute the mean <span class="math notranslate nohighlight">\(\mathsf{m}(x_i)\)</span> of the noise model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ind</strong> (<em>array_like</em><em>, </em><em>optional</em>) – The indices of the particles for which the mean is computed. The default is None.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="polarcbo.dynamic.PolarCBO.html" class="btn btn-neutral float-left" title="polarcbo.dynamic.PolarCBO" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="polarcbo.dynamic.CCBO.html" class="btn btn-neutral float-right" title="polarcbo.dynamic.CCBO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Leon Bungert, Tim Roith, Philipp Wacker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

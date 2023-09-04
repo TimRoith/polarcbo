@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>polarcbo.scheduler &mdash; polarcbo v0.1.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/style.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/polar.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=5e3f2911"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            polarcbo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dynamic.html">dynamic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../noise.html">noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../objectives.html">objectives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scheduler.html">scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils.html">utils</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">polarcbo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">polarcbo.scheduler</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for polarcbo.scheduler</h1><div class="highlight"><pre>
+<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Scheduler</span>
+<span class="sd">==========</span>
+
+<span class="sd">This module implements the :math:`\beta`-schedulers employed in the conensuse schemes.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">logsumexp</span>
+
+<div class="viewcode-block" id="scheduler_base">
+<a class="viewcode-back" href="../../generated/polarcbo.scheduler.scheduler_base.html#polarcbo.scheduler.scheduler_base">[docs]</a>
+<span class="k">class</span> <span class="nc">scheduler_base</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;scheduler_base class</span>
+<span class="sd">    </span>
+<span class="sd">    This class implements the base scheduler class. It is used to implement the :math:`\beta`-schedulers</span>
+<span class="sd">    employed in the consensus schemes.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    opt : object</span>
+<span class="sd">        The optimizer for which the :math:`\beta`-parameter should be updated</span>
+
+<span class="sd">    beta : float, optional</span>
+<span class="sd">        The initial value of the :math:`\beta`-parameter. The default is 1.0.</span>
+
+<span class="sd">    beta_max : float, optional</span>
+<span class="sd">        The maximum value of the :math:`\beta`-parameter. The default is 100000.0.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">beta_max</span> <span class="o">=</span> <span class="mf">100000.</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt</span> <span class="o">=</span> <span class="n">opt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta_max</span> <span class="o">=</span> <span class="n">beta_max</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="scheduler_base.__call__">
+<a class="viewcode-back" href="../../generated/polarcbo.scheduler.scheduler_base.html#polarcbo.scheduler.scheduler_base.__call__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Call method for classes that inherit from ``scheduler_base``</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        </span>
+<span class="sd">        beta : float</span>
+<span class="sd">            The current value of the :math:`\beta`-parameter in opt.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">beta</span></div>
+</div>
+
+
+<div class="viewcode-block" id="beta_exponential">
+<a class="viewcode-back" href="../../generated/polarcbo.scheduler.beta_exponential.html#polarcbo.scheduler.beta_exponential">[docs]</a>
+<span class="k">class</span> <span class="nc">beta_exponential</span><span class="p">(</span><span class="n">scheduler_base</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Exponential scheduler class</span>
+
+<span class="sd">    This class implements an exponential scheduler for the :math:`\beta`-parameter. The :math:`\beta`-parameter</span>
+<span class="sd">    is updated according to the rule</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \beta_{k+1} = \beta_k \cdot r</span>
+
+<span class="sd">    where :math:`r` is a parameter of the class.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    opt : object</span>
+<span class="sd">        The optimizer for which the :math:`\beta`-parameter should be updated   </span>
+<span class="sd">    beta : float, optional</span>
+<span class="sd">        The initial value of the :math:`\beta`-parameter. The default is 1.0.</span>
+<span class="sd">    beta_max : float, optional</span>
+<span class="sd">        The maximum value of the :math:`\beta`-parameter. The default is 100000.0.</span>
+<span class="sd">    r : float, optional</span>
+<span class="sd">        The parameter :math:`r` of the scheduler. The default is 1.0.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">beta_max</span> <span class="o">=</span> <span class="mf">100000.</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">beta_exponential</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span><span class="p">,</span> <span class="n">beta_max</span> <span class="o">=</span> <span class="n">beta_max</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">r</span>
+    
+<div class="viewcode-block" id="beta_exponential.update">
+<a class="viewcode-back" href="../../generated/polarcbo.scheduler.beta_exponential.html#polarcbo.scheduler.beta_exponential.update">[docs]</a>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Update the :math:`\beta`-parameter in opt according to the exponential scheduler.&quot;&quot;&quot;</span>
+
+        <span class="n">beta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">*</span> <span class="n">beta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_max</span><span class="p">)</span></div>
+</div>
+
+    
+    
+
+
+<span class="c1"># class for beta_eff scheduler</span>
+<div class="viewcode-block" id="beta_eff">
+<a class="viewcode-back" href="../../generated/polarcbo.scheduler.beta_eff.html#polarcbo.scheduler.beta_eff">[docs]</a>
+<span class="k">class</span> <span class="nc">beta_eff</span><span class="p">(</span><span class="n">scheduler_base</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;beta_eff scheduler class</span>
+<span class="sd">    </span>
+<span class="sd">    This class implements a scheduler for the :math:`\beta`-parameter based on the effective number of particles.</span>
+<span class="sd">    The :math:`\beta`-parameter is updated according to the rule</span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">        </span>
+<span class="sd">        \beta_{k+1} = \begin{cases}</span>
+<span class="sd">        \beta_k \cdot r &amp; \text{if } J_{eff} \geq \eta \cdot J \\ </span>
+<span class="sd">        \beta_k / r &amp; \text{otherwise}</span>
+<span class="sd">        \end{cases} </span>
+<span class="sd">        </span>
+<span class="sd">    where :math:`r`, :math:`\eta` are parameters and :math:`J` is the number of particles. The effictive number of</span>
+<span class="sd">    particles is defined as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        J_{eff} = \frac{1}{\sum_{i=1}^J w_i^2}</span>
+<span class="sd">    </span>
+<span class="sd">    where :math:`w_i` are the weights of the particles. This was, e.g., employed in [1]_.</span>
+
+
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    opt : object</span>
+<span class="sd">        The optimizer for which the :math:`\beta`-parameter should be updated</span>
+<span class="sd">    eta : float, optional</span>
+<span class="sd">        The parameter :math:`\eta` of the scheduler. The default is 1.0.</span>
+<span class="sd">    beta_max : float, optional</span>
+<span class="sd">        The maximum value of the :math:`\beta`-parameter. The default is 100000.0.</span>
+<span class="sd">    factor : float, optional</span>
+<span class="sd">        The parameter :math:`r` of the scheduler. The default is 1.05. </span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Carrillo, J. A., Hoffmann, F., Stuart, A. M., &amp; Vaes, U. (2022). Consensus‐based sampling. Studies in Applied Mathematics, 148(3), 1069-1140. </span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">beta_max</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">1.05</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">beta_eff</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">beta_max</span> <span class="o">=</span> <span class="n">beta_max</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">eta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta_max</span> <span class="o">=</span> <span class="n">beta_max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">J_eff</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="o">=</span><span class="n">factor</span>
+    
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">beta</span>
+        
+        <span class="n">term1</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">V</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">term2</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">V</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">J_eff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">term1</span><span class="o">-</span><span class="n">term2</span><span class="p">)</span>
+        
+        <span class="c1">#w = np.exp(-beta * self.opt.V(self.opt.x))</span>
+        <span class="c1">#self.J_eff = np.sum(w)**2/max(np.linalg.norm(w)**2,1e-7)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">J_eff</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">num_particles</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">beta</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_max</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+            <span class="c1">#self.opt.beta /= self.factor</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Leon Bungert, Tim Roith, Philipp Wacker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
