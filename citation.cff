@@ -1,0 +1,13 @@
+cff-version: 1.0.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Roith"
+  given-names: "Tim"
+  orcid: "https://orcid.org/0000-0001-8440-2928"
+- family-names: "Bungert"
+  given-names: "Leon"
+- family-names: "Wacker"
+  given-names: "Philipp"
+title: "polarcbo"
+version: 1.0.1
+url: "https://https://github.com/PdIPS/polarcbo"
